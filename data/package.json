@@ -1,0 +1,37 @@
+{
+  "name": "@damntools.fr/wnab-data",
+  "version": "1.0.0",
+  "description": "",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rimraf dist/ && npm run build:dist",
+    "build:dist": "rollup -c",
+    "lint": "eslint --ext .js,.ts .",
+    "lint:fix": "eslint --fix --ext .js,.ts .  && npm run format",
+    "format": "prettier --write \"**/*.+(js|ts|json|jsx|tsx|mjs|cjs)\"",
+    "test": "npm run lint && npm run test:coverage:report",
+    "test:unit": "mocha",
+    "test:coverage:report": "c8 npm run test:unit",
+    "test:local": "ts-node test.ts"
+  },
+  "author": "flocastera",
+  "publishConfig": {
+    "registry": "https://nexus.dev.damntools.fr/repository/npm-private/"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@damntools.fr/ts-lib": "^5.0.0"
+  },
+  "dependencies": {
+    "@damntools.fr/types": "^4.2.0",
+    "@damntools.fr/data": "^1.1.7",
+    "@damntools.fr/utils-simple": "^5.2.0",
+    "@types/luxon": "^3.3.2",
+    "luxon": "^3.4.2"
+  }
+}

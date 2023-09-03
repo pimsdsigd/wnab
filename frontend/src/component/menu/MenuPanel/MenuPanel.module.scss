@@ -1,0 +1,69 @@
+
+.MenuPanel {
+  background: #222526;
+  height: 100%;
+  //display: flex;
+  //flex-direction: column;
+}
+
+.Menus {
+  border-top: 1px solid #5b5b5b;
+}
+
+.Toolbar{
+
+}
+
+.ToolbarTitle {
+  padding: 8px 10px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+
+  > div:first-child{
+    flex: 1 0;
+  }
+  > div:last-child{
+    flex: 0 1;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.ToolbarExpand {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.Accounts{
+  //flex: 1 0;
+  border-top: 1px solid #5b5b5b;
+  padding: 4px 10px;
+  font-size: 14px;
+}
+
+.AddAccount {
+  padding: 10px 15px;
+
+  > div {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgba(144, 180, 33, 0.5);
+    transition: background-color 100ms ease;
+    &:hover{
+      cursor: pointer;
+      background-color: rgba(144, 180, 33, 0.6);
+      transition: background-color 100ms ease;
+    }
+  }
+
+  span, img {
+    vertical-align: middle;
+    display: inline-block;
+  }
+  img{
+    margin-right: 8px;
+    width: 18px;
+  }
+}

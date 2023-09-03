@@ -1,0 +1,54 @@
+
+.SelectionCheckbox {
+  text-align: center;
+  width: 30px;
+}
+
+.Flag {
+  text-align: center;
+  width: 30px;
+}
+
+.Date {
+  width: 80px;
+  text-align: left;
+}
+
+.Account {
+  //padding: 2px 20px !important;
+  width: 1%;
+  text-align: left;
+  min-width: 150px;
+}
+
+.Peer {
+  //padding: 2px 20px !important;
+  min-width: 225px;
+  text-align: left;
+  width: 1%;
+}
+
+.Category {
+  //padding: 2px 20px !important;
+  min-width: 300px;
+  text-align: left;
+  width: 1%;
+}
+
+.Desc {
+  text-align: left;
+}
+
+.CashFlow {
+  text-align: right;
+  width: 80px;
+}
+
+.StatusCheckbox {
+  text-align: center;
+  width: 50px;
+}
+
+.Uncleared {
+  font-weight: bold;
+}

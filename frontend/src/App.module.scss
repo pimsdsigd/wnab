@@ -1,0 +1,72 @@
+
+.HomeMainFrame{
+    position: relative;
+    width: inherit;
+    height: inherit;
+}
+
+.MainAppBlock {
+    width: inherit;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.Header {
+    background-color: #171717;
+    padding: 10px 20px;
+    flex: 0 1 auto;
+    display: flex;
+
+    & > div:last-child{
+        flex: 0 1 auto;
+    }
+}
+
+.HeaderContent {
+    flex: 1 1 auto;
+    font-weight: bold;
+    > span {
+        color: #71a114;
+    }
+}
+
+.MainPanel {
+    flex: 1 0;
+    overflow: hidden;
+}
+
+/*body:not(:hover) .Content {
+    transition: 0.5s ease-in all;
+    background: #323232;
+    color: #000000;
+}*/
+
+.ContentContainer {
+    width: inherit;
+}
+
+.ContentWrapper {
+    width: 100%;
+}
+
+.ContentWrapper .textual {
+    display: block;
+    width: 90%;
+    padding: 6px 10px;
+}
+
+.ContentWrapper label {
+    display: block;
+}
+
+.ContentWrapper button {
+    margin: 10px 10px;
+    padding: 8px 16px;
+    background: #8e8e8e;
+}
+
+.ContentWrapper button:hover {
+    cursor: pointer;
+}

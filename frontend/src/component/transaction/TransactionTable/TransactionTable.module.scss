@@ -1,0 +1,59 @@
+.TransactionTable {
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1 0;
+
+  > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    overflow: hidden;
+  }
+}
+
+.Table {
+  flex: 1 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+
+  > div:first-child {
+    display: table;
+    flex: 1 0;
+    height: 1%;
+  }
+
+  > div:last-child {
+    flex: 0 1 8px;
+    display: inline-block;
+    position: relative;
+  }
+}
+
+.Scrollbar{
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: rgba(113, 161, 20, 0.5);
+  position: absolute;
+  top: 0
+}
+
+.TableRow {
+  display: table-row;
+  height: 1%;
+
+  > div {
+    height: 1%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: table-cell;
+    padding: 2px 10px;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+}

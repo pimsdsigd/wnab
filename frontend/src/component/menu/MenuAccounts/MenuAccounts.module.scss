@@ -1,0 +1,38 @@
+
+.SpecificAccounts {
+  margin-top: 15px;
+}
+
+.AccountsTitle {
+  display: flex;
+  flex-direction: row;
+
+  > span {
+    padding-top: 0;
+    flex: 1 0;
+  }
+
+  > div {
+    display: inline-block;
+    flex: 0 1;
+    margin-left: 3px;
+    padding-top: 2px;
+    font-size: 12px;
+  }
+
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.BudgetAccounts {
+  margin-top: 8px;
+}
+
+.TrackingAccounts {
+  margin-top: 8px;
+}
+
+.ClosedAccounts {
+  margin-top: 8px;
+}

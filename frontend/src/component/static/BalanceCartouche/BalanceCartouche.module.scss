@@ -1,0 +1,48 @@
+
+.BalanceInfo {
+  flex: 0 1;
+  border-bottom: 1px solid #8f8f8f;
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+
+    > div {
+      padding: 15px 20px;
+      flex: 0 1;
+    }
+
+    > div:last-child {
+      flex: 1 0;
+      height: 55px;
+
+      > canvas {
+        width: 100%;
+      }
+    }
+  }
+
+  span {
+    display: inline-block;
+  }
+}
+
+.BalanceValue {
+  margin: 0 20px;
+
+  > div:first-child {
+    text-align: center;
+    margin-bottom: 5px;
+
+    > span {
+      padding: 0 20px 5px 20px;
+      border-bottom: 2px solid #8e8e8e;
+    }
+  }
+
+  > div:last-child {
+    text-align: center;
+    font-weight: bold;
+  }
+}

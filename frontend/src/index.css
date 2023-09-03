@@ -1,0 +1,117 @@
+
+html {
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-family: Lato, Tahoma, sans-serif;
+}
+
+
+ul, li {
+    -webkit-margin-after: 0;
+    -webkit-margin-before: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    padding-inline-start: 0;
+    list-style: none;
+}
+
+h1, h2, h3, h4 {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    -webkit-padding-start: 0;
+}
+
+h1 {
+    font-size: 18px;
+}
+
+h2 {
+    font-size: 16px;
+}
+
+h3 {
+    font-size: 14px;
+}
+
+body {
+    background: #363B3D;
+    color: #d9d9d9;
+    font-size: 16px;
+}
+
+#root {
+    width: inherit;
+    height: inherit;
+}
+
+
+button {
+    padding: 3px 6px;
+    border: 0;
+    margin: 0 0 0 5px;
+}
+
+input.textual, textarea.textual {
+    padding: 3px 5px;
+    border: 0;
+    min-width: 20%;
+    -webkit-appearance: none;
+}
+
+input.textual:not(:focus), textarea.textual:not(:focus) {
+    font-style: italic;
+}
+
+input[type=text] {
+    margin: 0 5px 0 0;
+}
+
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #222526;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #555;
+}
+
+::-webkit-scrollbar-thumb:horizontal{
+    border-left: #369611 2px solid;
+    border-right: #369611 2px solid;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    border-top: #369611 2px solid;
+    border-bottom: #369611 2px solid;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}

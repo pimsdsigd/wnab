@@ -1,0 +1,46 @@
+{
+  "name": "@damntools.fr/wnab-backend",
+  "version": "1.0.0",
+  "description": "Server app",
+  "main": "src/app.ts",
+  "scripts": {
+    "dev": "nodemon --watch src -e js,ts,json --exec \"ts-node src/server.ts\"",
+    "build": "tsup src/server.ts --format cjs --clean",
+    "start": "node dist/index.js",
+    "startup": "ts-node src/server.ts",
+    "import": "ts-node src/importer.ts",
+    "aom": "ts-node src/ageofmoney.ts"
+  },
+  "author": "Devayan Sarkar",
+  "license": "ISC",
+  "devDependencies": {
+    "@damntools.fr/wnab-data": "../data",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/morgan": "^1.9.5",
+    "@types/node": "^17.0.45",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2",
+    "why-is-node-running": "^2.2.2"
+  },
+  "dependencies": {
+    "@damntools.fr/express-utils": "2.2.9",
+    "@damntools.fr/logger-simple": "^3.2.12",
+    "@damntools.fr/sqlite": "^2.4.4",
+    "@damntools.fr/types": "^4.2.0",
+    "@damntools.fr/utils-simple": "^5.2.1",
+    "@damntools.fr/cached": "^1.1.0",
+    "@damntools.fr/data": "^1.1.7",
+    "@damntools.fr/wnab-data": "../data",
+    "@types/luxon": "^3.3.2",
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "luxon": "^3.4.2",
+    "morgan": "^1.10.0"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "extends": "../node_modules/@damntools.fr/ts-lib/tsconfig.json",
+  "include": ["./src/**/*"]
+}

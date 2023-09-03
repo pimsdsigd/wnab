@@ -1,0 +1,21 @@
+.NotificationCartouche{
+  background-color: #4a7200;
+  font-size: 14px;
+
+  > span {
+    padding: 7px 11px;
+    display: inline-block;
+    span {
+      height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    img{
+      width: 14px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+  }
+}

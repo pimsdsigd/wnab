@@ -1,0 +1,39 @@
+@import "../common";
+
+.TransactionLine {
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+
+  &.Future {
+    background-color: rgba(0, 0, 0, 0.2);
+    filter: blur(2px);
+  }
+
+  &.Future:hover {
+    filter: blur(0);
+
+    & + div.Future {
+      filter: blur(1px);
+    }
+  }
+}
+
+.Flag {
+  filter: brightness(0.7);
+}
+
+.SelectionCheckbox {
+  > div > div > div {
+    border: 2px solid;
+  }
+}
+
+.StatusCheckbox {
+  & > span :hover {
+    cursor: pointer;
+    filter: brightness(1.5 );
+  }
+}

@@ -1,0 +1,64 @@
+
+.TransactionTableToolbar {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #8f8f8f;
+  flex: 0 1;
+
+  > div {
+    vertical-align: middle;
+    display: flex;
+    > div {
+    }
+  }
+}
+
+.ToolbarButton {
+  padding: 5px 8px;
+  transition: background-color 100ms ease;
+  flex: 0 1;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 100ms ease;
+  }
+}
+
+.ToolbarSeparator {
+  color: #8e8e8e;
+  font-size: 17px;
+}
+
+.ToolbarFilterBar {
+  flex: 1 0;
+  display: table;
+  vertical-align: middle;
+
+  > div {
+    display: table-cell;
+    vertical-align: middle;
+    > div {
+      display: table;
+      width: 100%;
+      vertical-align: middle;
+      > div {
+        display: table-cell;
+        text-align: right;
+        vertical-align: middle;
+        > * {
+          vertical-align: middle;
+          text-align: right;
+          display: inline-block;
+          width: 200px;
+          margin-right: 10px;
+        }
+
+        img {
+          display: inline-block;
+          vertical-align: middle;
+          width: 18px;
+        }
+      }
+    }
+  }
+}

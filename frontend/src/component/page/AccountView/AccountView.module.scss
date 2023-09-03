@@ -1,0 +1,17 @@
+.AccountView {
+
+  > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    > div:last-child {
+      flex: 1 0;
+      height: 100%;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

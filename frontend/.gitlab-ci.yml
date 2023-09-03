@@ -1,0 +1,13 @@
+include:
+  - project: 'cannawatch/ci'
+    ref: main
+    file: '.gitlab-ci.template.yml'
+
+variables:
+  PUSH_DOCKER: "yes"
+
+PushImage:
+  needs:
+    - Test
+  dependencies:
+    - Test

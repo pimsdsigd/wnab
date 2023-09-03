@@ -1,0 +1,165 @@
+.AccountView {
+
+  > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    > div:last-child {
+      flex: 1 0;
+      height: 100%;
+      overflow: auto;
+    }
+  }
+}
+
+.AccountInfo {
+  white-space: nowrap;
+  border-bottom: 1px solid #8f8f8f;
+  display: flex;
+  flex-direction: row;
+  color: inherit;
+  flex: 0 1;
+
+  > div {
+    flex: 0 1;
+  }
+
+  > div:first-child {
+    flex: 1 0;
+
+    > div {
+      padding: 15px 20px;
+    }
+  }
+
+  > div:last-child {
+    vertical-align: middle;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+  h2 {
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: initial;
+    font-style: italic;
+
+    span {
+      vertical-align: middle;
+      display: inline-block;
+    }
+
+    img {
+      margin-right: 6px;
+      width: 16px;
+      vertical-align: middle;
+      display: inline-block;
+    }
+
+  }
+}
+
+.BalanceInfo {
+  flex: 0 1;
+  border-bottom: 1px solid #8f8f8f;
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+
+    > div {
+      padding: 15px 20px;
+      flex: 0 1;
+    }
+  }
+
+  span {
+    display: inline-block;
+  }
+}
+
+.BalanceValue {
+  margin: 0 20px;
+
+  > div:first-child {
+    text-align: center;
+    margin-bottom: 5px;
+
+    > span {
+      padding: 0 20px 5px 20px;
+      border-bottom: 2px solid #8e8e8e;
+    }
+  }
+
+  > div:last-child {
+    text-align: center;
+    font-weight: bold;
+  }
+}
+
+.Actions {
+  > div {
+    height: 100%;
+    display: table;
+
+    > div {
+      padding: 0 15px;
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    > div:last-child {
+      padding: 0 30px 0 10px;
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
+  span {
+    text-align: center;
+  }
+}
+
+.Reconcile, .Configure, .Close {
+  span {
+    white-space: nowrap;
+    padding: 6px 15px;
+    border-radius: 4px;
+    background-color: #4a7200;
+    transition: background-color 100ms ease;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #5b860b;
+      transition: background-color 100ms ease;
+    }
+  }
+}
+
+.Configure {
+  span {
+    background-color: #2485af;
+    &:hover {
+      cursor: pointer;
+      background-color: #3292bb;
+      transition: background-color 100ms ease;
+    }
+  }
+}
+
+.Close {
+  span {
+    background-color: #8f3028;
+    &:hover {
+      cursor: pointer;
+      background-color: #98413a;
+      transition: background-color 100ms ease;
+    }
+  }
+}
