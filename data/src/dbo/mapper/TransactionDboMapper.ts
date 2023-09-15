@@ -13,6 +13,8 @@ export class TransactionDboMapper extends DboMapper<Transaction, number, Transac
     this.addMapping({from: "peerId", ignore: true})
     this.addMapping({from: "account", to: "accountId", mapper: new DboRelationMapper()})
     this.addMapping({from: "accountId", ignore: true})
+    this.addMapping({from: "flag", to: "flagId", mapper: new DboRelationMapper()})
+    this.addMapping({from: "flagId", ignore: true})
   }
 
   static get(): TransactionDboMapper {

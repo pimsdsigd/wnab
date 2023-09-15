@@ -1,0 +1,68 @@
+.DatePicker {
+  background-color: #1C1E1F;
+  width: 290px;
+  color: rgb(206, 206, 206);
+  //width: 100%;
+  font-size: 12px;
+  padding: 3px 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  border-left-color: #808080;
+  border-top-color: #808080;
+
+  &:focus-visible {
+    outline: 0;
+  }
+
+}
+
+.Calendar {
+  & {
+    background-color: #1C1E1F;
+    color: rgb(206, 206, 206) !important;
+    border: 2px solid white;
+  }
+
+  > div:last-child {
+    background-color: #343434;
+    color: rgb(206, 206, 206) !important;
+  }
+
+  // header
+  > div:last-child > div:first-child {
+    background-color: #1C1E1F;
+    color: rgb(206, 206, 206) !important;
+  }
+
+  // header
+  > div:last-child > div:first-child div {
+    color: rgb(206, 206, 206) !important;
+  }
+
+  // tab
+  > div:last-child > div:last-child {
+    background-color: #343434;
+    color: rgb(206, 206, 206) !important;
+  }
+
+  > div:last-child > div:last-child div{
+    color: rgb(206, 206, 206) !important;
+  }
+
+
+  > div:last-child > div:last-child div:hover{
+    color: black !important;
+  }
+
+}
+
+
+.Popper {
+  color: rgb(206, 206, 206);
+}
+
+.Wrapper {
+  color: rgb(206, 206, 206);
+}

@@ -2,9 +2,10 @@ import {CategoryDtoMapper} from "./CategoryDtoMapper"
 import {PeerDtoMapper} from "./PeerDtoMapper"
 import {AccountDtoMapper} from "./AccountDtoMapper"
 import {DateTimeTimestampMapper, DtoMapper, EnumMapper} from "@damntools.fr/data"
-import {TransactionFlagMapper} from "./TransactionFlagMapper"
 import {Transaction, TransactionDto} from "../Transaction"
 import {TransactionStatus} from "../../TransactionStatus"
+import {RecurringTransactionStep} from "../../RecurringTransactionStep"
+import {TransactionFlagDtoMapper} from "./TransactionFlagDtoMapper"
 
 export class TransactionDtoMapper extends DtoMapper<Transaction, TransactionDto> {
   static INSTANCE: TransactionDtoMapper | null = null
@@ -16,7 +17,8 @@ export class TransactionDtoMapper extends DtoMapper<Transaction, TransactionDto>
     this.addMapping({from: "peer", mapper: PeerDtoMapper.get()})
     this.addMapping({from: "date", mapper: DateTimeTimestampMapper.get()})
     this.addMapping({from: "status", mapper: new EnumMapper(TransactionStatus)})
-    this.addMapping({from: "flag", mapper: TransactionFlagMapper.get()})
+    this.addMapping({from: "flag", mapper: TransactionFlagDtoMapper.get()})
+    this.addMapping({from: "repeat", mapper: new EnumMapper(RecurringTransactionStep)})
   }
 
   static get(): TransactionDtoMapper {
