@@ -1,5 +1,5 @@
 import React from "react"
-import styles from "./DateTimePicker.module.scss"
+import styles from "./DatePicker.module.scss"
 import {CssClass} from "@damntools.fr/utils-simple"
 import ReactDatePicker from "react-datepicker"
 import {DateTime} from "luxon"
@@ -10,19 +10,21 @@ export type DateTimePickerProps = {
   value: Optionable<DateTime>
 }
 
-export class DateTimePicker extends React.Component<DateTimePickerProps, any> {
+export class DatePicker extends React.Component<DateTimePickerProps, any> {
   render() {
     return (
       <div className={CssClass.from(styles.DateTimePicker).get()}>
         <div>
           <div>
             <ReactDatePicker
-              startDate={this.props.value.map(d => d.toJSDate()).orElseUndefined()}
+                dateFormat={"MMMM dd, yyyy"}
+              selected={this.props.value
+                .map(d => d.toJSDate())
+                .orElseUndefined()}
               popperClassName={styles.Popper}
               wrapperClassName={styles.Wrapper}
               calendarClassName={styles.Calendar}
               className={styles.DatePicker}
-              selected={new Date()}
               onChange={this.props.onChange}
             />
           </div>

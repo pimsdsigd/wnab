@@ -8,11 +8,13 @@ import {
   png_menu_chart,
   png_savings
 } from "../../../assets"
-import {openAccountViewPopup} from "../../page"
+import {openAccountReconcilePopup, openAccountViewPopup} from "../../page"
 import {AlertProvider, Notification, Popin} from "@damntools.fr/react-alert"
-import {AccountService} from "../../../service/AccountService"
-import {AccountProvider, TransactionProvider} from "../../../service"
-import {openAccountReconcilePopup} from "../../page/AccountReconcileView";
+import {
+  AccountApiService,
+  AccountProvider,
+  TransactionProvider
+} from "../../../service"
 
 export type AccountInfoCartoucheProps = {
   account: Account
@@ -100,7 +102,7 @@ export class AccountInfoCartouche extends React.Component<
   private closeAccount(account: Account) {
     AlertProvider.submitPopin(
       Popin.warning("Are you sure to close account ?").SuccessAction(id => {
-        AccountService.get()
+        AccountApiService.get()
           .closeAccount(account)
           .catch(() => {
             AlertProvider.submitNotification(
@@ -116,7 +118,7 @@ export class AccountInfoCartouche extends React.Component<
   private openAccount(account: Account) {
     AlertProvider.submitPopin(
       Popin.warning("Are you sure to open account ?").SuccessAction(id => {
-        AccountService.get()
+        AccountApiService.get()
           .openAccount(account)
           .catch(() => {
             AlertProvider.submitNotification(
@@ -133,7 +135,7 @@ export class AccountInfoCartouche extends React.Component<
     AlertProvider.submitPopin(
       Popin.warning("Are you sure to clear all transactions ?").SuccessAction(
         id => {
-          AccountService.get()
+          AccountApiService.get()
             .clearAll(account)
             .catch(() => {
               AlertProvider.submitNotification(

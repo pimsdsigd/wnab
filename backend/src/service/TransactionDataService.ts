@@ -1,5 +1,11 @@
 import { AbstractDataService } from "./AbstractDataService";
-import { Collectors, defined, List, toList } from "@damntools.fr/types";
+import {
+  Collectors,
+  defined,
+  List,
+  toList,
+  UniqueList,
+} from "@damntools.fr/types";
 import { PeerDataService } from "./PeerDataService";
 import { CategoryDataService } from "./CategoryDataService";
 import { AccountDataService } from "./AccountDataService";
@@ -9,11 +15,12 @@ import {
   Peer,
   Transaction,
   TransactionDbo,
-  TransactionDboMapper,
+  TransactionDboMapper, TransactionFlag,
   TransactionStatus,
 } from "@damntools.fr/wnab-data";
 import { TransactionRepository } from "~/repository";
 import { Caches, KvCache } from "@damntools.fr/cached";
+import {TransactionFlagDataService} from "./TransactionFlagDataService";
 
 export class TransactionDataService extends AbstractDataService<
   Transaction,
@@ -23,6 +30,7 @@ export class TransactionDataService extends AbstractDataService<
   private readonly peerService: PeerDataService;
   private readonly categoryService: CategoryDataService;
   private readonly accountService: AccountDataService;
+  private readonly transactionFlagService: TransactionFlagDataService;
   private readonly cache: KvCache<number, Transaction>;
   private containsAll: boolean;
 
@@ -31,6 +39,7 @@ export class TransactionDataService extends AbstractDataService<
     this.peerService = PeerDataService.get();
     this.categoryService = CategoryDataService.get();
     this.accountService = AccountDataService.get();
+    this.transactionFlagService = TransactionFlagDataService.get();
     this.cache = Caches.get();
     this.containsAll = false;
   }
@@ -72,11 +81,17 @@ export class TransactionDataService extends AbstractDataService<
         ? this.accountService.getById(data.accountId as number)
         : Promise.resolve(),
     );
+    promises.push(
+      defined(data.flagId)
+        ? this.transactionFlagService.getById(data.flagId as number)
+        : Promise.resolve(),
+    );
     return Promise.allSettled(promises).then((res) => {
       if (res[0].status === "fulfilled") data.peer = res[0].value as Peer;
       if (res[1].status === "fulfilled")
         data.category = res[1].value as Category;
       if (res[2].status === "fulfilled") data.account = res[2].value as Account;
+      if (res[3].status === "fulfilled") data.flag = res[3].value as TransactionFlag;
       return data;
     });
   }
@@ -84,6 +99,7 @@ export class TransactionDataService extends AbstractDataService<
   protected completeTransactions(transactions: List<TransactionDbo>) {
     return this.peerService.getAll().then((peers) =>
       this.categoryService.getAll().then((categories) =>
+      this.transactionFlagService.getAll().then((flags) =>
         this.accountService.getAll().then((accounts) =>
           transactions
             .stream()
@@ -99,12 +115,17 @@ export class TransactionDataService extends AbstractDataService<
                 data.account = accounts
                   .stream()
                   .find((p) => p.id === tx.accountId);
+              if (tx.flagId)
+                data.flag = flags
+                  .stream()
+                  .find((p) => p.id === tx.flagId);
               this.cache.put(data.id as number, data);
               this.containsAll = true;
               return data;
             })
             .collect(Collectors.toList),
         ),
+      ),
       ),
     );
   }

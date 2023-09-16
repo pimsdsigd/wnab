@@ -1,3 +1,14 @@
+CREATE TABLE flag
+(
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       TEXT              NOT NULL,
+    type       TEXT              NOT NULL,
+    hidden     INTEGER DEFAULT 0 NOT NULL,
+    categoryId INTEGER,
+    UNIQUE (name),
+    FOREIGN KEY (categoryId) REFERENCES category (id)
+);
+
 CREATE TABLE peer
 (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,6 +30,15 @@ CREATE TABLE category
     FOREIGN KEY (parentId) REFERENCES category (id)
 );
 
+CREATE TABLE transactionFlag
+(
+    id     INTEGER PRIMARY KEY AUTOINCREMENT,
+    name   TEXT              NOT NULL,
+    color  TEXT              NOT NULL,
+    hidden INTEGER DEFAULT 0 NOT NULL,
+    UNIQUE (name)
+);
+
 CREATE TABLE account
 (
     id     INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,17 +51,20 @@ CREATE TABLE account
 CREATE TABLE transactionEvent
 (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    date        INTEGER                 NOT NULL,
-    description TEXT                    NOT NULL,
-    flag        TEXT,
-    cashFlow    REAL DEFAULT 0.0        NOT NULL,
-    status      TEXT DEFAULT "unehcked" NOT NULL,
+    date        INTEGER                  NOT NULL,
+    description TEXT                     NOT NULL,
+    cashFlow    REAL DEFAULT 0.0         NOT NULL,
+    status      TEXT DEFAULT 'uncleared' NOT NULL,
     categoryId  INTEGER,
     peerId      INTEGER,
     accountId   INTEGER,
+    flagId      INTEGER,
+    repeat      TEXT,
+    repeated    INTEGER,
     FOREIGN KEY (accountId) REFERENCES account (id),
     FOREIGN KEY (categoryId) REFERENCES category (id),
     FOREIGN KEY (peerId) REFERENCES peer (id)
+    FOREIGN KEY (flagId) REFERENCES transactionFlag (id)
 );
 
 CREATE TABLE budget

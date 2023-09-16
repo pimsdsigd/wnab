@@ -1,67 +1,64 @@
 import React from "react"
 import {List, Lists, Optionable} from "@damntools.fr/types"
-import {Account} from "@damntools.fr/wnab-data"
-import {AccountApiService, EnrichedAccount} from "../AccountApiService"
+import {Peer} from "@damntools.fr/wnab-data"
+import {PeerApiService} from "../PeerApiService"
 
-export type AccountProviderState = {
-    accounts: List<EnrichedAccount>
-    getAccountByName: (name: string) => Optionable<EnrichedAccount>
-    refresh: () => void
+export type PeerProviderState = {
+  peers: List<Peer>
+  getPeerByName: (name: string) => Optionable<Peer>
+  refresh: () => void
 }
 
-export const AccountContext = React.createContext({} as AccountProviderState)
+export const PeerContext = React.createContext({} as PeerProviderState)
 
-export const AccountConsumer = AccountContext.Consumer
+export const PeerConsumer = PeerContext.Consumer
 
-export class AccountProvider extends React.Component<
-    any,
-    AccountProviderState
-> {
-    private static INSTANCE: AccountProvider | null = null
+export class PeerProvider extends React.Component<any, PeerProviderState> {
+  private static INSTANCE: PeerProvider | null = null
 
-    state: AccountProviderState = {
-        getAccountByName: this.getAccountByName.bind(this),
-        accounts: Lists.empty(),
-        refresh: () => {
-            void this.prepareData()
-        }
+  state: PeerProviderState = {
+    getPeerByName: this.getPeerByName.bind(this),
+    peers: Lists.empty(),
+    refresh: () => {
+      void this.prepareData()
     }
+  }
 
-    constructor(props: any) {
-        super(props)
-        AccountProvider.INSTANCE = this
-    }
+  constructor(props: any) {
+    super(props)
+    PeerProvider.INSTANCE = this
+  }
 
-    static refresh() {
-        if (this.INSTANCE) this.INSTANCE.state.refresh()
-    }
+  static refresh() {
+    if (this.INSTANCE) this.INSTANCE.state.refresh()
+  }
 
-    componentDidMount() {
-        void this.prepareData()
-    }
+  componentDidMount() {
+    void this.prepareData()
+  }
 
-    prepareData() {
-        return AccountApiService.get()
-            .getAccounts()
-            .then(
-                accounts =>
-                    new Promise<List<Account>>(resolve =>
-                        this.setState({accounts: accounts as List<EnrichedAccount>}, () => resolve(accounts))
-                    )
+  prepareData() {
+    return PeerApiService.get()
+      .getPeers()
+      .then(
+        accounts =>
+          new Promise<List<Peer>>(resolve =>
+            this.setState({peers: accounts as List<Peer>}, () =>
+              resolve(accounts)
             )
-            .then(accounts => AccountApiService.get().getSplitBalances(accounts))
-            .then(accounts => this.setState({accounts}))
-    }
+          )
+      )
+  }
 
-    render() {
-        return (
-            <AccountContext.Provider value={this.state}>
-                {this.props.children}
-            </AccountContext.Provider>
-        )
-    }
+  render() {
+    return (
+      <PeerContext.Provider value={this.state}>
+        {this.props.children}
+      </PeerContext.Provider>
+    )
+  }
 
-    private getAccountByName(name: string): Optionable<EnrichedAccount> {
-        return this.state.accounts.stream().findOptional(a => a.name === name)
-    }
+  private getPeerByName(name: string): Optionable<Peer> {
+    return this.state.peers.stream().findOptional(a => a.name === name)
+  }
 }

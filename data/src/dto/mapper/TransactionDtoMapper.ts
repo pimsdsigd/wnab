@@ -15,9 +15,9 @@ export class TransactionDtoMapper extends DtoMapper<Transaction, TransactionDto>
     this.addMapping({from: "category", mapper: CategoryDtoMapper.get()})
     this.addMapping({from: "account", mapper: AccountDtoMapper.get()})
     this.addMapping({from: "peer", mapper: PeerDtoMapper.get()})
+    this.addMapping({from: "flag", mapper: TransactionFlagDtoMapper.get()})
     this.addMapping({from: "date", mapper: DateTimeTimestampMapper.get()})
     this.addMapping({from: "status", mapper: new EnumMapper(TransactionStatus)})
-    this.addMapping({from: "flag", mapper: TransactionFlagDtoMapper.get()})
     this.addMapping({from: "repeat", mapper: new EnumMapper(RecurringTransactionStep)})
   }
 

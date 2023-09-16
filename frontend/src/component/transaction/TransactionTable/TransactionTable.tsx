@@ -1,5 +1,5 @@
 import React from "react"
-import {Transaction} from "@damntools.fr/wnab-data"
+import {Account, Transaction} from "@damntools.fr/wnab-data"
 import {KV, List, Optionable, Optional} from "@damntools.fr/types"
 import styles from "./TransactionTable.module.scss"
 import {TransactionLine} from "./TransactionLine"
@@ -17,6 +17,7 @@ import {LoaderDiv} from "../../static"
 export type TransactionTableProps = {
   transactions: List<Transaction>
   showAccount: boolean
+  account: Optionable<Account>
 }
 
 export type TransactionTableState = {
@@ -75,7 +76,7 @@ export class TransactionTable extends React.Component<
       <div className={styles.TransactionTable}>
         <div>
           <TransactionTableOptionsProvider>
-            <TransactionTableToolbar />
+            <TransactionTableToolbar account={this.props.account} transactions={this.props.transactions} />
             <TransactionTableHeader
               showAccount={this.props.showAccount}
               transactions={this.props.transactions}
@@ -97,10 +98,10 @@ export class TransactionTable extends React.Component<
                 )
                 const sorted = TransactionSorter.sort(sort, filtered)
                 /*console.log(
-                                                  `txs=${filtered.size()} start=${this.state.start} end=${
-                                                    this.state.end
-                                                  } amp=${this.state.listAmplitude}`
-                                                )*/
+                                                                  `txs=${filtered.size()} start=${this.state.start} end=${
+                                                                    this.state.end
+                                                                  } amp=${this.state.listAmplitude}`
+                                                                )*/
                 if (sorted.isEmpty()) return <LoaderDiv />
                 return (
                   <div

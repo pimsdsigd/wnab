@@ -8,7 +8,12 @@ import {
 } from "@damntools.fr/react-inputs"
 import {Lists, Optionable, Optional} from "@damntools.fr/types"
 import {Account, AccountType} from "@damntools.fr/wnab-data"
-import {png_cash, png_coin, png_credit_card, png_savings} from "../../../assets"
+import {
+  png_cash,
+  png_coin,
+  png_credit_card,
+  png_savings
+} from "../../../../assets"
 import {
   AlertProvider,
   Notification,
@@ -16,8 +21,7 @@ import {
   PopinButton,
   PopinButtonRow
 } from "@damntools.fr/react-alert"
-import {AccountProvider} from "../../../service"
-import {AccountApiService} from "../../../service/AccountApiService"
+import {AccountApiService, AccountProvider} from "../../../../service"
 
 export type AccountCreationViewProps = {
   popinId: string

@@ -1,12 +1,11 @@
 import React from "react"
 import {AccountType} from "@damntools.fr/wnab-data"
 import styles from "./MenuAccounts.module.scss"
-import {AccountConsumer} from "../../../service"
+import {AccountConsumer, EnrichedAccount} from "../../../service"
 import {List, toList} from "@damntools.fr/types"
 import {MenuAccount} from "../MenuAccount"
 import {PriceView} from "../../static"
 import {PRICE_POSITIVE_COLOR} from "../../../constants"
-import {EnrichedAccount} from "../../../service/AccountService"
 
 const budgetFilter = (account: EnrichedAccount): account is EnrichedAccount =>
   !account.closed &&
@@ -127,15 +126,21 @@ export class MenuAccounts extends React.Component<any, MenuAccountsState> {
       .map(account => <MenuAccount key={account.name} account={account} />)
   }
 
-  private getBudgetAccounts(accounts: List<EnrichedAccount>): List<EnrichedAccount> {
+  private getBudgetAccounts(
+    accounts: List<EnrichedAccount>
+  ): List<EnrichedAccount> {
     return accounts.stream().filter(budgetFilter).collect(toList)
   }
 
-  private getTrackingAccounts(accounts: List<EnrichedAccount>): List<EnrichedAccount> {
+  private getTrackingAccounts(
+    accounts: List<EnrichedAccount>
+  ): List<EnrichedAccount> {
     return accounts.stream().filter(trackingFilter).collect(toList)
   }
 
-  private getClosedAccounts(accounts: List<EnrichedAccount>): List<EnrichedAccount> {
+  private getClosedAccounts(
+    accounts: List<EnrichedAccount>
+  ): List<EnrichedAccount> {
     return accounts.stream().filter(closedFilter).collect(toList)
   }
 }

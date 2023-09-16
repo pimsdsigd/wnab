@@ -1,0 +1,40 @@
+.FlagSelector {
+  background-color: #1C1E1F;
+  border-radius: 4px;
+
+  > div {
+    padding: 0 4px;
+  }
+}
+
+.FlagEntry {
+  display: inline-block;
+  font-size: 12px;
+  margin: 0 2px;
+
+}
+
+.Flag{
+  padding: 0 4px;
+  transition: all 100ms ease;
+  border: 3px solid transparent;
+
+  span {
+    filter: brightness(1);
+    color: white;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: #1f1f1f;
+    transition: all 100ms ease;
+
+    & span {
+      filter: brightness(1.5);
+    }
+  }
+}
+
+.Flag.Selected {
+  background-color: #131313;
+}

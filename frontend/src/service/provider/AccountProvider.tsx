@@ -1,7 +1,7 @@
 import React from "react"
 import {List, Lists, Optionable} from "@damntools.fr/types"
 import {Account} from "@damntools.fr/wnab-data"
-import {AccountService, EnrichedAccount} from "../AccountService"
+import {AccountApiService, EnrichedAccount} from "../AccountApiService"
 
 export type AccountProviderState = {
     accounts: List<EnrichedAccount>
@@ -41,7 +41,7 @@ export class AccountProvider extends React.Component<
     }
 
     prepareData() {
-        return AccountService.get()
+        return AccountApiService.get()
             .getAccounts()
             .then(
                 accounts =>
@@ -49,7 +49,7 @@ export class AccountProvider extends React.Component<
                         this.setState({accounts: accounts as List<EnrichedAccount>}, () => resolve(accounts))
                     )
             )
-            .then(accounts => AccountService.get().getSplitBalances(accounts))
+            .then(accounts => AccountApiService.get().getSplitBalances(accounts))
             .then(accounts => this.setState({accounts}))
     }
 

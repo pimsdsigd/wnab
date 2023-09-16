@@ -1,0 +1,62 @@
+.AccountCreationView {
+
+}
+
+.Form {
+  width: 100%;
+}
+
+.FormContent {
+  display: flex;
+  flex-direction: column;
+
+  @media screen {
+    & {
+      flex-direction: row;
+    }
+  }
+  width: 100%;
+  > div:first-child {
+    flex: 0 1 50%;
+  }
+  > div:last-child {
+    flex: 1 0 ;
+  }
+}
+
+.Rows {
+
+  display: table;
+  width: 100%;
+}
+
+.Buttons {
+  padding-top: 20px;
+}
+
+.FormRow {
+  display: table-row;
+}
+
+.RowLabel, .RowInput {
+  display: table-cell;
+  padding: 5px 10px;
+  vertical-align: top;
+}
+
+.RowLabel {
+  text-align: right;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.RowInput {
+  > div {
+    width: 300px;
+  }
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
+}

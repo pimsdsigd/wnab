@@ -1,5 +1,5 @@
 import React, {JSX} from "react"
-import styles from "./AccountCreationView.module.scss"
+import styles from "./PeerEditView.module.scss"
 import {
   CheckboxInput,
   ChoiceSelector,
@@ -7,8 +7,7 @@ import {
   VD
 } from "@damntools.fr/react-inputs"
 import {Lists, Optionable, Optional} from "@damntools.fr/types"
-import {Account, AccountType} from "@damntools.fr/wnab-data"
-import {png_cash, png_coin, png_credit_card, png_savings} from "../../../assets"
+import {Peer, PeerType} from "@damntools.fr/wnab-data"
 import {
   AlertProvider,
   Notification,
@@ -16,51 +15,47 @@ import {
   PopinButton,
   PopinButtonRow
 } from "@damntools.fr/react-alert"
-import {AccountProvider} from "../../../service"
-import {AccountService} from "../../../service/AccountService"
+import {PeerApiService, PeerProvider} from "../../../../service"
 
-export type AccountCreationViewProps = {
+export type PeerEditViewProps = {
   popinId: string
-  onSave?: (account: Account) => Promise<any>
-  onUpdate?: (account: Account) => Promise<any>
-  account: Optionable<Account>
+  onSave?: (peer: Peer) => Promise<any>
+  onUpdate?: (peer: Peer) => Promise<any>
+  peer: Optionable<Peer>
 }
 
-export type AccountCreationViewState = {
-  closed: Optionable<boolean>
+export type PeerEditViewState = {
+  hidden: Optionable<boolean>
   name: Optionable<string>
-  type: Optionable<AccountType>
+  type: Optionable<PeerType>
 }
 
-export const openAccountViewPopup = (account?: Account) => {
+export const openPeerViewPopup = (peer?: Peer) => {
   AlertProvider.submitPopin(
-    Popin.title("Account configuration")
+    Popin.title(peer ? "Peer configuration" : "Peer creation")
       .DisableActions()
       .Content(id => (
-        <AccountCreationView
-          popinId={id}
-          account={Optional.nullable(account)}
-        />
+        <PeerEditView popinId={id} peer={Optional.nullable(peer)} />
       ))
   )
 }
 
-export class AccountCreationView extends React.Component<
-  AccountCreationViewProps,
-  AccountCreationViewState
+export class PeerEditView extends React.Component<
+  PeerEditViewProps,
+  PeerEditViewState
 > {
-  constructor(props: AccountCreationViewProps) {
+  constructor(props: PeerEditViewProps) {
     super(props)
-    if (this.props.account.isPresent()) {
-      const account = this.props.account.get()
+    if (this.props.peer.isPresent()) {
+      const peer = this.props.peer.get()
       this.state = {
-        closed: Optional.of(account.closed),
-        name: Optional.of(account.name),
-        type: Optional.of(account.type)
+        hidden: Optional.of(peer.hidden),
+        name: Optional.of(peer.name),
+        type: Optional.of(peer.type)
       }
     } else {
       this.state = {
-        closed: Optional.of(false),
+        hidden: Optional.of(false),
         name: Optional.empty(),
         type: Optional.empty()
       }
@@ -90,13 +85,13 @@ export class AccountCreationView extends React.Component<
             />
           )}
           {this.getRow(
-            "Closed",
+            "Hidden",
             <div>
               <CheckboxInput
                 size={"25px"}
                 dark={true}
-                onChange={v => this.onChangeClosed(v)}
-                checked={this.state.closed.orElseReturn(false)}
+                onChange={v => this.onChangeHidden(v)}
+                checked={this.state.hidden.orElseReturn(false)}
               />
             </div>
           )}
@@ -142,50 +137,63 @@ export class AccountCreationView extends React.Component<
     )
   }
 
-  private getTypeValues() {
-    return [
-      VD(AccountType.CASH).Display("Cash").Icon(png_cash),
-      VD(AccountType.DAILY_USAGE).Display("Daily usage").Icon(png_credit_card),
-      VD(AccountType.SAVINGS).Display("Savings").Icon(png_savings),
-      VD(AccountType.INVESTMENT).Display("Investment").Icon(png_coin)
-    ]
-  }
-
   private onSuccess() {
     let errored = false
-    if (this.state.name.isEmpty()) {
-      AlertProvider.submitNotification(
-        Notification.error("Validation issue").Subtitle(
-          "Name should not be empty"
-        )
-      )
-      errored = true
-    }
+    console.log(this.state)
     if (this.state.type.isEmpty()) {
       AlertProvider.submitNotification(
         Notification.error("Validation issue").Subtitle("Type should be set")
       )
       errored = true
     }
+    if (this.state.name.isEmpty()) {
+      AlertProvider.submitNotification(
+        Notification.error("Validation issue").Subtitle("Name should be set")
+      )
+      errored = true
+    }
     if (!errored) {
-      const account = new Account({
-        closed: this.state.closed.orElseReturn(false),
+      const peer = new Peer({
+        hidden: this.state.hidden.orElseReturn(false),
         name: this.state.name.get(),
         type: this.state.type.get()
       })
-      if (this.props.account.isPresent()) {
-        account.id = this.props.account.get().id
-        void AccountService.get()
-          .updateAccount(account)
-          .then(() => AccountProvider.refresh())
+      if (this.props.peer.isPresent()) {
+        peer.id = this.props.peer.get().id
+        void PeerApiService.get()
+          .update(peer)
+          .then(() => PeerProvider.refresh())
+          .catch(err => {
+            console.error(err)
+            AlertProvider.submitNotification(
+              Notification.error("Could not update peer !").Subtitle(
+                err?.response?.data?.reason || ""
+              )
+            )
+          })
           .then(() => AlertProvider.removeAlert(this.props.popinId))
       } else {
-        void AccountService.get()
-          .createAccount(account)
-          .then(() => AccountProvider.refresh())
+        void PeerApiService.get()
+          .create(peer)
+          .then(() => PeerProvider.refresh())
+          .catch(err => {
+            console.error("err", err)
+            AlertProvider.submitNotification(
+              Notification.error("Could not create peer !").Subtitle(
+                err?.response?.data?.reason || ""
+              )
+            )
+          })
           .then(() => AlertProvider.removeAlert(this.props.popinId))
       }
     }
+  }
+
+  private getTypeValues() {
+    return [
+      VD(PeerType.PERSON).Display("Person"),
+      VD(PeerType.ENTITY).Display("Entity")
+    ]
   }
 
   private onCancel() {
@@ -193,14 +201,14 @@ export class AccountCreationView extends React.Component<
   }
 
   private onChangeName(value: Optionable<string>) {
-    this.setState({name: value})
+    this.setState({name: value.map(s => s.toLowerCase())})
   }
 
-  private onChangeType(value: Optionable<AccountType>) {
+  private onChangeType(value: Optionable<PeerType>) {
     this.setState({type: value})
   }
 
-  private onChangeClosed(value: Optionable<boolean>) {
-    this.setState({closed: value})
+  private onChangeHidden(value: Optionable<boolean>) {
+    this.setState({hidden: value})
   }
 }

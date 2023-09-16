@@ -1,55 +1,40 @@
 import {
-  Transaction,
-  TransactionDto,
-  TransactionDtoMapper,
+  TransactionFlag,
+  TransactionFlagDto,
+  TransactionFlagDtoMapper,
 } from "@damntools.fr/wnab-data";
-import { TransactionDataService } from "~/service";
-import { DataController, withQueryParam } from "@damntools.fr/express-utils";
-import { Request } from "express";
-import { ValueListMapper } from "@damntools.fr/data";
-import { List, toList } from "@damntools.fr/types";
+import { TransactionFlagDataService } from "~/service";
+import { DataController, Http400Error } from "@damntools.fr/express-utils";
+import {
+  DataWriteError,
+  SqlConstraintViolationError,
+  SqlUniqueConstraintViolationError,
+} from "@damntools.fr/sqlite";
 
-export class TransactionController extends DataController<
+export class TransactionFlagController extends DataController<
   number,
-  Transaction,
-  TransactionDto
+  TransactionFlag,
+  TransactionFlagDto
 > {
   constructor() {
     super(
-      "/transaction",
-      TransactionDataService.get(),
-      TransactionDtoMapper.get(),
+      "/transactionFlag",
+      TransactionFlagDataService.get(),
+      TransactionFlagDtoMapper.get(),
       true,
     );
-  }
-
-  setRoutes() {
-    this.get(
-      "/clear",
-      this.do((r) => this.clearTransactions(r)),
+    this.builder = this.builder.mapException<DataWriteError>(
+      DataWriteError,
+      (error) => {
+        if (error.reason() instanceof SqlUniqueConstraintViolationError)
+          return new Http400Error(
+            (error.reason() as SqlUniqueConstraintViolationError).constraint() +
+              " should be unique",
+          );
+        if (error.reason() instanceof SqlConstraintViolationError)
+          return new Http400Error(error.reason().message);
+        return new Http400Error(error.message);
+      },
     );
-    this.get(
-      "/flag",
-      this.do(() => this.getAllFlags()),
-    );
-    super.setRoutes();
-  }
-
-  private clearTransactions(r: Request): Promise<List<Transaction>> {
-    return withQueryParam<string>(r, "ids")
-      .then((ids) => ValueListMapper.stringArray().mapFrom(ids))
-      .then((ids) =>
-        ids
-          .stream()
-          .map((id) => this.idMapper().mapFrom(id))
-          .collect(toList),
-      )
-      .then((ids) =>
-        this.service<TransactionDataService>().clearTransactions(ids),
-      );
-  }
-
-  private getAllFlags(): Promise<List<string>> {
-    return this.service<TransactionDataService>().getAllFlags();
   }
 }

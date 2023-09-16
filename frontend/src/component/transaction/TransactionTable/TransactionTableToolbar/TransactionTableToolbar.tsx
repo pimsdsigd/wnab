@@ -1,5 +1,5 @@
 import React from "react"
-import {List, Optional} from "@damntools.fr/types"
+import {List, Optionable, Optional} from "@damntools.fr/types"
 import styles from "./TransactionTableToolbar.module.scss"
 import {CssClass, StringUtils} from "@damntools.fr/utils-simple"
 import {
@@ -18,8 +18,13 @@ import {
 } from "../../../../service"
 import {TextInput, VD} from "@damntools.fr/react-inputs"
 import {AlertProvider, Notification, Popin} from "@damntools.fr/react-alert"
+import {Account, Transaction} from "@damntools.fr/wnab-data"
+import {openTransactionEditPopup} from "../../../page";
 
-export type TransactionTableToolbarProps = {}
+export type TransactionTableToolbarProps = {
+  transactions: List<Transaction>
+  account: Optionable<Account>
+}
 
 export type TransactionTableToolbarState = {}
 
@@ -38,11 +43,15 @@ export class TransactionTableToolbar extends React.Component<
         <TransactionTableOptionsConsumer>
           {options => (
             <div>
-              <div className={styles.ToolbarButton}>
+              <div
+                className={styles.ToolbarButton}
+                onClick={() => this.onClickAdd()}>
                 <div>Add</div>
               </div>
-              {options.selected.hasElements() ? (
-                <div className={styles.ToolbarButton}>
+              {options.selected.size() === 1 ? (
+                <div
+                  className={styles.ToolbarButton}
+                  onClick={() => this.onClickEdit(options.selected)}>
                   <div>Edit</div>
                 </div>
               ) : null}
@@ -134,6 +143,17 @@ export class TransactionTableToolbar extends React.Component<
       s => TransactionApiService.get().duplicateTx(s.get(0) as number),
       selected
     )
+  }
+
+  private onClickAdd() {
+    openTransactionEditPopup(Optional.empty(), this.props.account)
+  }
+
+  private onClickEdit(selected: List<number>) {
+    const tx = this.props.transactions
+      .stream()
+      .find(tx => tx.id === selected.get(0))
+    openTransactionEditPopup(Optional.nullable(tx), this.props.account)
   }
 
   private runAction(

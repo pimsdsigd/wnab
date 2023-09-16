@@ -1,0 +1,143 @@
+.PeerView {
+  width: 100%;
+  height: 100%;
+
+  h1 {
+    padding: 20px 20px 0 20px;
+  }
+
+  & > div {
+    height: 100%;
+
+    flex: 1 0;
+    overflow: hidden;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      overflow: hidden;
+    }
+  }
+}
+
+.Toolbar {
+  padding: 10px 20px 10px 20px;
+}
+
+.List {
+  overflow: auto;
+  margin-bottom: 35px;
+}
+
+.ListWrapper {
+  padding: 0 10px;
+  columns: 400px;
+  overflow: auto;
+}
+
+
+.Add {
+  display: inline-block;
+  font-size: 12px;
+
+  > div {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgba(144, 180, 33, 0.5);
+    transition: background-color 100ms ease;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(144, 180, 33, 0.6);
+      transition: background-color 100ms ease;
+    }
+  }
+
+  span, img {
+    vertical-align: middle;
+    display: inline-block;
+  }
+
+  img {
+    margin-right: 8px;
+    width: 14px;
+  }
+}
+
+.PeerEntry {
+  break-inside: avoid-column;
+  padding: 5px 10px;
+  white-space: nowrap;
+  margin: 3px 0;
+  font-size: 14px;
+
+  & > div {
+    width: 100%;
+    display: table;
+  }
+
+  & > div > div:first-child {
+    display: table-cell;
+    vertical-align: middle;
+    //flex: 1 0;
+  }
+
+  & > div > div:nth-child(2) {
+    text-align: right;
+    width: 1%;
+    display: table-cell;
+    vertical-align: middle;
+    //flex: 1 0;
+    top: -4px;
+    position: relative;
+    padding-right: 10px;
+
+    & > div > div > div {
+      border-width: 2px;
+    }
+  }
+
+  & > div > div:nth-child(3){
+    padding-right: 10px;
+    width: 1%;
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+    //flex: 0 1;
+
+    img {
+      width: 14px;
+    }
+
+    &:hover {
+      filter: brightness(1.3);
+      cursor: pointer;
+    }
+  }
+
+  & > div > div:last-child {
+    width: 1%;
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+    //flex: 0 1;
+
+    img {
+      width: 18px;
+    }
+
+    &:hover {
+      filter: brightness(1.3);
+      cursor: pointer;
+    }
+  }
+
+
+
+  &:hover {
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.05)
+  }
+}

@@ -1,83 +1,49 @@
-import {ArrayList, defined, List, toList} from "@damntools.fr/types"
-import {Account, AccountDto, AccountDtoMapper} from "@damntools.fr/wnab-data"
+import {ArrayList, List, toList} from "@damntools.fr/types"
+import {Peer, PeerDto, PeerDtoMapper} from "@damntools.fr/wnab-data"
 import axios from "axios"
 
-export type EnrichedAccount = Account & {
-  balance: number
-}
+export class PeerApiService {
+  static INSTANCE: PeerApiService | null = null
 
-export class AccountApiService {
-  static INSTANCE: AccountApiService | null = null
-
-  getAccounts(): Promise<List<Account>> {
+  getPeers(): Promise<List<Peer>> {
     return axios
-      .get("http://localhost:8000/api/account")
-      .then(res => new ArrayList<AccountDto>(res.data))
+      .get("http://localhost:8000/api/peer")
+      .then(res => new ArrayList<PeerDto>(res.data))
       .then(res =>
         res
           .stream()
-          .map(a => AccountDtoMapper.get().mapTo(a))
+          .map(a => PeerDtoMapper.get().mapTo(a))
           .collect(toList)
       )
   }
 
-  getSplitBalances(accounts: List<Account>): Promise<List<EnrichedAccount>> {
-    return axios
-      .get("http://localhost:8000/api/account/balance/split")
-      .then(res => res.data as any)
-      .then(res => {
-        return accounts
-          .stream()
-          .filter((a): a is Account => defined(a.id))
-          .map(a => a as EnrichedAccount)
-          .peek(a => (a.balance = res[a.id as number]))
-          .collect(toList)
-      })
-  }
-
-  createAccount(account: Account) {
-    if (account.id) return Promise.reject("Account should not contains id ! ")
+  create(peer: Peer) {
+    if (peer.id) return Promise.reject("Peer should not contains id ! ")
     return axios.post(
-      "http://localhost:8000/api/account",
-      AccountDtoMapper.get().mapFrom(account)
+      "http://localhost:8000/api/peer",
+      PeerDtoMapper.get().mapFrom(peer)
     )
+        .then(res =>res.data as PeerDto)
+        .then(res =>PeerDtoMapper.get().mapTo(res))
   }
 
-  updateAccount(account: Account) {
-    if (!account.id) return Promise.reject("Account should contains id ! ")
+  update(peer: Peer) {
+    if (!peer.id) return Promise.reject("Peer should contains id ! ")
     return axios.put(
-      `http://localhost:8000/api/account/${account.id}`,
-      AccountDtoMapper.get().mapFrom(account)
+      `http://localhost:8000/api/peer/${peer.id}`,
+      PeerDtoMapper.get().mapFrom(peer)
     )
   }
 
-  closeAccount(account: Account) {
-    account.closed = true
-    return this.updateAccount(account)
-  }
-
-  openAccount(account: Account) {
-    account.closed = false
-    return this.updateAccount(account)
-  }
-
-  clearAll(account: Account) {
+  delete(flags: List<number>) {
     return axios
-      .get(`http://localhost:8000/api/account/${account.id}/clear`)
-      .then(res => res.data as void)
+      .delete(`http://localhost:8000/api/peer?ids=${flags.stream().join(",")}`)
+      .then(() => {})
   }
 
-  reconcile(account: Account, amount: number) {
-    return axios
-      .put(`http://localhost:8000/api/account/${account.id}/reconcile`, {
-        amount
-      })
-      .then(res => res.data as void)
-  }
-
-  static get(): AccountApiService {
+  static get(): PeerApiService {
     if (this.INSTANCE === null) {
-      this.INSTANCE = new AccountApiService()
+      this.INSTANCE = new PeerApiService()
     }
     return this.INSTANCE
   }

@@ -1,0 +1,42 @@
+.AccountCreationView {
+
+}
+
+.Form {
+  padding: 20px;
+
+}
+
+.Rows {
+
+  display: table;
+
+}
+
+.Buttons {
+  padding-top: 20px;
+}
+
+.FormRow {
+  display: table-row;
+}
+
+.RowLabel, .RowInput {
+  display: table-cell;
+  padding: 5px 10px;
+}
+
+.RowLabel {
+  vertical-align: middle;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.RowInput {
+  vertical-align: middle;
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
+}

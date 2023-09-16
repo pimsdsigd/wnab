@@ -1,8 +1,12 @@
-import { DateTimeTimestampMapper, EnumMapper } from "@damntools.fr/data";
+import {
+  BooleanNumberMapper,
+  DateTimeTimestampMapper,
+  EnumMapper,
+} from "@damntools.fr/data";
 import { SimpleDataAccessor } from "@damntools.fr/sqlite";
 import {
+  RecurringTransactionStep,
   TransactionDbo,
-  TransactionFlagMapper,
   TransactionStatus,
 } from "@damntools.fr/wnab-data";
 
@@ -19,7 +23,11 @@ export class TransactionRepository extends SimpleDataAccessor<
       from: "status",
       mapper: new EnumMapper(TransactionStatus),
     });
-    this.addMapping({ from: "flag", mapper: TransactionFlagMapper.get() });
+    this.addMapping({
+      from: "repeat",
+      mapper: new EnumMapper(RecurringTransactionStep),
+    });
+    this.addMapping({ from: "repeated", mapper: new BooleanNumberMapper() });
   }
 
   static get(): TransactionRepository {

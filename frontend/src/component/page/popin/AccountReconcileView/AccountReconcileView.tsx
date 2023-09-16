@@ -11,10 +11,10 @@ import {
   PopinButtonRow
 } from "@damntools.fr/react-alert"
 import {
+  AccountApiService,
   AccountProvider,
-  AccountService,
   TransactionProvider
-} from "../../../service"
+} from "../../../../service"
 
 export type AccountReconcileViewProps = {
   popinId: string
@@ -102,7 +102,7 @@ export class AccountReconcileView extends React.Component<
         )
       )
     } else {
-      void AccountService.get()
+      void AccountApiService.get()
         .reconcile(this.props.account, this.state.currentAmount.get())
         .then(() => TransactionProvider.refresh())
         .then(() => AccountProvider.refresh())

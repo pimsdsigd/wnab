@@ -9,20 +9,42 @@
 
   &.Future {
     background-color: rgba(0, 0, 0, 0.2);
-    filter: blur(2px);
+    filter: blur(1px);
   }
 
   &.Future:hover {
     filter: blur(0);
 
     & + div.Future {
-      filter: blur(1px);
+      //filter: blur(1px);
     }
   }
 }
 
-.Flag {
+.Flag{
+  position: relative;
+
+  &:hover > div {
+    display: inline-block;
+  }
+
+  & > div:hover {
+    display: inline-block;
+  }
+}
+
+.Flag > span{
   filter: brightness(0.7);
+  font-weight: bold;
+}
+
+.Flag > div{
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 5px;
+  transform: translateX(100%);
+  z-index: 10;
 }
 
 .SelectionCheckbox {
@@ -34,6 +56,6 @@
 .StatusCheckbox {
   & > span :hover {
     cursor: pointer;
-    filter: brightness(1.5 );
+    filter: brightness(1.5);
   }
 }

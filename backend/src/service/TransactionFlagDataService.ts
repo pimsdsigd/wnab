@@ -1,24 +1,24 @@
 import { AbstractDataService } from "./AbstractDataService";
-import { Peer, PeerDbo, PeerDboMapper } from "@damntools.fr/wnab-data";
-import { PeerRepository } from "~/repository";
-import { eq } from "@damntools.fr/sqlite";
+import {
+  TransactionFlag,
+  TransactionFlagDbo,
+  TransactionFlagDboMapper,
+} from "@damntools.fr/wnab-data";
+import { TransactionFlagRepository } from "~/repository";
 
-export class PeerDataService extends AbstractDataService<Peer, PeerDbo> {
-  static INSTANCE: PeerDataService | null = null;
+export class TransactionFlagDataService extends AbstractDataService<
+  TransactionFlag,
+  TransactionFlagDbo
+> {
+  static INSTANCE: TransactionFlagDataService | null = null;
 
   protected constructor() {
-    super(PeerRepository.get(), PeerDboMapper.get());
+    super(TransactionFlagRepository.get(), TransactionFlagDboMapper.get());
   }
 
-  getReconciliationPeer(): Promise<Peer> {
-    return this.repository
-      .findOne(eq("name", "Reconciliation Balance Adjustment"))
-      .then((peer) => this.mapper.mapTo(peer));
-  }
-
-  static get(): PeerDataService {
+  static get(): TransactionFlagDataService {
     if (this.INSTANCE === null) {
-      this.INSTANCE = new PeerDataService();
+      this.INSTANCE = new TransactionFlagDataService();
     }
     return this.INSTANCE;
   }

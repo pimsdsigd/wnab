@@ -13,16 +13,23 @@ export class TransactionApiService {
     return axios
       .get("http://localhost:8000/api/transaction")
       .then(res => new ArrayList<TransactionDto>(res.data))
-      .then(res =>
-        res
+      .then(res => {
+        return res
           .stream()
-          .map(a => TransactionDtoMapper.get().mapTo(a))
+          .map(a => {
+            if( a.id === 2216)
+              debugger
+            const re =  TransactionDtoMapper.get().mapTo(a)
+            if( a.id === 2216)
+              debugger
+            return re
+          })
           .collect(toList)
-      )
+      })
   }
 
   createTx(tx: Transaction) {
-    if (tx.id) return Promise.reject("Account should not contains id ! ")
+    if (tx.id) return Promise.reject("Transaction should not contains id ! ")
     return axios.post(
       "http://localhost:8000/api/transaction",
       TransactionDtoMapper.get().mapFrom(tx)
@@ -30,7 +37,7 @@ export class TransactionApiService {
   }
 
   updateTx(tx: Transaction) {
-    if (!tx.id) return Promise.reject("Account should contains id ! ")
+    if (!tx.id) return Promise.reject("Transaction should contains id ! ")
     return axios.put(
       `http://localhost:8000/api/transaction/${tx.id}`,
       TransactionDtoMapper.get().mapFrom(tx)
@@ -44,19 +51,20 @@ export class TransactionApiService {
       )
       .then(() => {})
   }
+
   clearTxs(txs: List<number>) {
     return axios
       .get(
-        `http://localhost:8000/api/transaction/clear?ids=${txs.stream().join(",")}`
+        `http://localhost:8000/api/transaction/clear?ids=${txs
+          .stream()
+          .join(",")}`
       )
       .then(() => {})
   }
 
   duplicateTx(txId: number) {
     return axios
-      .get(
-        `http://localhost:8000/api/transaction/${txId}/duplicate`
-      )
+      .get(`http://localhost:8000/api/transaction/${txId}/duplicate`)
       .then(() => {})
   }
 

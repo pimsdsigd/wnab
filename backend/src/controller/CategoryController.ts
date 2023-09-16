@@ -1,47 +1,51 @@
 import {
-  Transaction,
-  TransactionDto,
-  TransactionDtoMapper,
+  Category,
+  CategoryDto,
+  CategoryDtoMapper,
 } from "@damntools.fr/wnab-data";
-import { TransactionDataService } from "~/service";
-import { DataController, withQueryParam } from "@damntools.fr/express-utils";
-import { Request } from "express";
-import { ValueListMapper } from "@damntools.fr/data";
-import { toList } from "@damntools.fr/types";
+import { CategoryDataService } from "~/service";
+import { DataController } from "@damntools.fr/express-utils";
+import { Collectors, List } from "@damntools.fr/types";
 
-export class TransactionController extends DataController<
+export class CategoryController extends DataController<
   number,
-  Transaction,
-  TransactionDto
+  Category,
+  CategoryDto
 > {
   constructor() {
     super(
-      "/transaction",
-      TransactionDataService.get(),
-      TransactionDtoMapper.get(),
+      "/category",
+      CategoryDataService.get(),
+      CategoryDtoMapper.get(),
       true,
-    );
-    this.get(
-      "/clear",
-      this.do((r) => this.clearTransactions(r)),
     );
   }
 
   setRoutes() {
+    this.get("/parent", this.do(() => this.getAllParentCategories()))
+    this.get("/sub", this.do(() => this.getAllSubCategories()))
     super.setRoutes();
   }
 
-  private clearTransactions(r: Request) {
-    return withQueryParam<string>(r, "ids")
-      .then((ids) => ValueListMapper.stringArray().mapFrom(ids))
-      .then((ids) =>
-        ids
+  private getAllParentCategories(): Promise<List<CategoryDto>> {
+    return this.service<CategoryDataService>()
+      .getAllParentCategories()
+      .then((categories) =>
+        categories
           .stream()
-          .map((id) => this.idMapper().mapFrom(id))
-          .collect(toList),
-      )
-      .then((ids) =>
-        this.service<TransactionDataService>().clearTransactions(ids),
+          .map((c) => this.mapper().mapFrom(c))
+          .collect(Collectors.toList),
+      );
+  }
+
+  private getAllSubCategories(): Promise<List<CategoryDto>> {
+    return this.service<CategoryDataService>()
+      .getAllSubCategories()
+      .then((categories) =>
+        categories
+          .stream()
+          .map((c) => this.mapper().mapFrom(c))
+          .collect(Collectors.toList),
       );
   }
 }

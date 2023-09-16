@@ -1,24 +1,31 @@
 import React from "react"
-import {List, Lists, Optionable} from "@damntools.fr/types"
-import {Peer} from "@damntools.fr/wnab-data"
-import {PeerApiService} from "../PeerApiService"
+import {List, Lists, Optionable, toList} from "@damntools.fr/types"
+import {Category} from "@damntools.fr/wnab-data"
+import {CategoryApiService} from "../CategoryApiService"
 
-export type PeerProviderState = {
-  peers: List<Peer>
-  getPeerByName: (name: string) => Optionable<Peer>
+export type CategoryProviderState = {
+  categories: List<Category>
+  parentCategories: List<Category>
+  subCategories: List<Category>
+  getCategoryByName: (name: string) => Optionable<Category>
   refresh: () => void
 }
 
-export const PeerContext = React.createContext({} as PeerProviderState)
+export const CategoryContext = React.createContext({} as CategoryProviderState)
 
-export const PeerConsumer = PeerContext.Consumer
+export const CategoryConsumer = CategoryContext.Consumer
 
-export class PeerProvider extends React.Component<any, PeerProviderState> {
-  private static INSTANCE: PeerProvider | null = null
+export class CategoryProvider extends React.Component<
+  any,
+  CategoryProviderState
+> {
+  private static INSTANCE: CategoryProvider | null = null
 
-  state: PeerProviderState = {
-    getPeerByName: this.getPeerByName.bind(this),
-    peers: Lists.empty(),
+  state: CategoryProviderState = {
+    getCategoryByName: this.getCategoryByName.bind(this),
+    categories: Lists.empty(),
+    subCategories: Lists.empty(),
+    parentCategories: Lists.empty(),
     refresh: () => {
       void this.prepareData()
     }
@@ -26,7 +33,7 @@ export class PeerProvider extends React.Component<any, PeerProviderState> {
 
   constructor(props: any) {
     super(props)
-    PeerProvider.INSTANCE = this
+    CategoryProvider.INSTANCE = this
   }
 
   static refresh() {
@@ -38,27 +45,40 @@ export class PeerProvider extends React.Component<any, PeerProviderState> {
   }
 
   prepareData() {
-    return PeerApiService.get()
-      .getPeers()
+    return CategoryApiService.get()
+      .getAll()
       .then(
-        accounts =>
-          new Promise<List<Peer>>(resolve =>
-            this.setState({peers: accounts as List<Peer>}, () =>
-              resolve(accounts)
+        categories =>
+          new Promise<List<Category>>(resolve => {
+            const sub = categories
+              .stream()
+              .filter(c => !!c.parentCategory)
+              .collect(toList)
+            const parent = categories
+              .stream()
+              .filter(c => !c.parentCategory)
+              .collect(toList)
+            this.setState(
+              {
+                categories: categories,
+                parentCategories: parent,
+                subCategories: sub
+              },
+              () => resolve(categories)
             )
-          )
+          })
       )
   }
 
   render() {
     return (
-      <PeerContext.Provider value={this.state}>
+      <CategoryContext.Provider value={this.state}>
         {this.props.children}
-      </PeerContext.Provider>
+      </CategoryContext.Provider>
     )
   }
 
-  private getPeerByName(name: string): Optionable<Peer> {
-    return this.state.peers.stream().findOptional(a => a.name === name)
+  private getCategoryByName(name: string): Optionable<Category> {
+    return this.state.categories.stream().findOptional(a => a.name === name)
   }
 }

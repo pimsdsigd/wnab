@@ -1,20 +1,21 @@
 import { SimpleDataAccessor } from "@damntools.fr/sqlite";
+import { BooleanNumberMapper } from "@damntools.fr/data";
+import {TransactionFlagDbo} from "@damntools.fr/wnab-data";
 
-import { PeerDbo, PeerType } from "@damntools.fr/wnab-data";
-import { BooleanNumberMapper, EnumMapper } from "@damntools.fr/data";
-
-export class PeerRepository extends SimpleDataAccessor<number, PeerDbo> {
-  static INSTANCE: PeerRepository | null = null;
+export class TransactionFlagRepository extends SimpleDataAccessor<
+  number,
+  TransactionFlagDbo
+> {
+  static INSTANCE: TransactionFlagRepository | null = null;
 
   constructor() {
-    super("peer");
+    super("transactionFlag");
     this.addMapping({ from: "hidden", mapper: new BooleanNumberMapper() });
-    this.addMapping({ from: "type", mapper: new EnumMapper(PeerType) });
   }
 
-  static get(): PeerRepository {
+  static get(): TransactionFlagRepository {
     if (this.INSTANCE === null) {
-      this.INSTANCE = new PeerRepository();
+      this.INSTANCE = new TransactionFlagRepository();
     }
     return this.INSTANCE;
   }

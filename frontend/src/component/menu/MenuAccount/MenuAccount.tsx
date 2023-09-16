@@ -5,7 +5,7 @@ import {png_menu_edit} from "../../../assets"
 import {PriceView} from "../../static"
 import {PRICE_POSITIVE_COLOR} from "../../../constants"
 import {openAccountViewPopup} from "../../page"
-import {EnrichedAccount} from "../../../service/AccountService"
+import {EnrichedAccount} from "../../../service/AccountApiService"
 
 export type MenuPanelProps = {
   account: EnrichedAccount

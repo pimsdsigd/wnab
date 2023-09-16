@@ -27,20 +27,20 @@
     "why-is-node-running": "^2.2.2"
   },
   "dependencies": {
-    "@damntools.fr/express-utils": "2.2.9",
+    "@damntools.fr/express-utils": "2.2.12",
     "@damntools.fr/logger-simple": "^3.2.12",
-    "@damntools.fr/sqlite": "^2.4.4",
+    "@damntools.fr/sqlite": "^2.4.6",
     "@damntools.fr/types": "^4.2.0",
     "@damntools.fr/utils-simple": "^5.2.1",
     "@damntools.fr/cached": "^1.1.0",
-    "@damntools.fr/data": "^1.1.7",
+    "@damntools.fr/data": "^1.1.9",
     "@damntools.fr/wnab-data": "../data",
     "@types/luxon": "^3.3.2",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "helmet": "^7.0.0",
-    "luxon": "^3.4.2",
+    "luxon": "^3.4.3",
     "morgan": "^1.10.0"
   }
 }

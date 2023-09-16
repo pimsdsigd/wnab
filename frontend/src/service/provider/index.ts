@@ -1,3 +1,5 @@
 export * from "./AccountProvider"
 export * from "./TransactionProvider"
 export * from "./TransactionTableOptionsProvider"
+export * from "./PeerProvider"
+export * from "./CategoryProvider"

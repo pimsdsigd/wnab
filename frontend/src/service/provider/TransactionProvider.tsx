@@ -1,11 +1,13 @@
 import React from "react"
 import {List, Lists, toList} from "@damntools.fr/types"
-import {Account, Transaction} from "@damntools.fr/wnab-data"
+import {Account, Transaction, TransactionFlag} from "@damntools.fr/wnab-data"
 import {DateTime} from "luxon"
 import {TransactionApiService} from "../TransactionApiService"
+import {TransactionFlagApiService} from "../TransactionFlagApiService"
 
 export type TransactionProviderState = {
   transactions: List<Transaction>
+  flags: List<TransactionFlag>
   txByAccount: (account: Account) => List<Transaction>
   refresh: () => void
 }
@@ -47,6 +49,7 @@ export class TransactionProvider extends React.Component<
         .collect(toList)
     },
     transactions: Lists.empty(),
+    flags: Lists.empty(),
     refresh: () => {
       void this.prepareData()
     }
@@ -68,7 +71,11 @@ export class TransactionProvider extends React.Component<
   prepareData() {
     TransactionApiService.get()
       .getTxs()
-      .then(txs => this.setState({transactions: txs}))
+      .then(txs =>
+        TransactionFlagApiService.get()
+          .getFlags()
+          .then(flags => this.setState({transactions: txs, flags}))
+      )
   }
 
   render() {

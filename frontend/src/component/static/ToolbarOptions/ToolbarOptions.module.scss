@@ -1,0 +1,94 @@
+
+.ToolbarOptions {
+
+}
+
+.ToolbarTitle {
+  padding: 8px 10px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+
+  > div:first-child {
+    flex: 1 0;
+  }
+
+  > div:last-child {
+    flex: 0 1;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.ToolbarExpand {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+
+.ToolbarPart {
+  border-bottom: 2px solid gray;
+  margin-bottom: 5px;
+
+  &:last-child {
+    border: 0;
+  }
+}
+
+.Links{
+  span {
+    font-weight: bold;
+    display: inline-block;
+    padding: 3px 8px;
+    filter: brightness(1);
+    &:hover{
+      cursor: pointer;
+      filter: brightness(1.3);
+    }
+  }
+}
+
+.EntityManagement {
+  & img {
+    width: 30px;
+    padding: 10px
+  }
+
+  & > div:first-child {
+
+  }
+}
+
+.ManageTiles {
+  display: flex;
+
+  & > div {
+    flex: 1 1;
+    text-align: center;
+    display: table;
+    padding: 10px 0;
+  }
+
+  & > div > div {
+    display: table-cell;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  & > div > div:hover {
+    filter: brightness(1.3);
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+}
+
+.Donate {
+  background-image: linear-gradient(to left, green, yellow, orange, red, violet);
+  -webkit-background-clip: text;color: transparent;
+}
+
+.Report{
+  color: #b44238;
+}

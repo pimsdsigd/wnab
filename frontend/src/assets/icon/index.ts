@@ -26,9 +26,13 @@ import png_peer_logo from "./peer_logo.png"
 import png_category from "./category.png"
 import png_bank from "./bank.png"
 import png_asterisk from "./asterisk.png"
+import png_settings from "./settings.png"
+import png_flag from "./flag.png"
 
 export {
   png_sort_asc,
+  png_flag,
+  png_settings,
   png_bank,
   png_category,
   png_asterisk,

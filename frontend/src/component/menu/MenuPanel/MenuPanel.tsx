@@ -9,41 +9,14 @@ import {
 } from "../../../assets"
 import {MenuAccounts} from "../MenuAccounts"
 import {openAccountViewPopup} from "../../page";
+import {ToolbarOptions} from "../../static";
 
-export type MenuPanelState = {
-  expandToolbar: boolean
-}
-
-export class MenuPanel extends React.Component<any, MenuPanelState> {
-  constructor(props: any) {
-    super(props)
-    this.state = {
-      expandToolbar: false
-    }
-  }
+export class MenuPanel extends React.Component<any, any> {
 
   render() {
     return (
       <div className={styles.MenuPanel}>
-        <div className={styles.Toolbar}>
-          <div className={styles.ToolbarTitle}>
-            <div>
-              <span>Hello</span>
-            </div>
-            <div>
-              <span
-                title={"Click to expand/hide"}
-                onClick={() =>
-                  this.setState({expandToolbar: !this.state.expandToolbar})
-                }>
-                {!this.state.expandToolbar ? "▼" : "▲"}
-              </span>
-            </div>
-          </div>
-          <div className={styles.ToolbarExpand}>
-            {this.state.expandToolbar ? <div>Toolbar options</div> : null}
-          </div>
-        </div>
+        <ToolbarOptions/>
         <div className={styles.Menus}>
           <div>
             <MenuEntry

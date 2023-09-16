@@ -1,87 +1,56 @@
 import {ArrayList, List, toList} from "@damntools.fr/types"
 import {
-  Transaction,
-  TransactionDto,
-  TransactionDtoMapper,
   TransactionFlag,
-  TransactionFlagMapper
+  TransactionFlagDto,
+  TransactionFlagDtoMapper
 } from "@damntools.fr/wnab-data"
 import axios from "axios"
 
-export class TransactionApiService {
-    static INSTANCE: TransactionApiService | null = null
+export class TransactionFlagApiService {
+  static INSTANCE: TransactionFlagApiService | null = null
 
-    getTxs(): Promise<List<Transaction>> {
-        return axios
-            .get("http://localhost:8000/api/transaction")
-            .then(res => new ArrayList<TransactionDto>(res.data))
-            .then(res =>
-                res
-                    .stream()
-                    .map(a => TransactionDtoMapper.get().mapTo(a))
-                    .collect(toList)
-            )
-    }
+  getFlags(): Promise<List<TransactionFlag>> {
+    return axios
+      .get("http://localhost:8000/api/transactionFlag")
+      .then(res => new ArrayList<TransactionFlagDto>(res.data))
+      .then(res =>
+        res
+          .stream()
+          .map(a => TransactionFlagDtoMapper.get().mapTo(a))
+          .collect(toList)
+      )
+  }
 
-    getFlags(): Promise<List<TransactionFlag>>{
-      return axios
-          .get("http://localhost:8000/api/transaction/flag")
-          .then(res => new ArrayList<string>(res.data))
-          .then(res =>
-              res
-                  .stream()
-                  .map(a => TransactionFlagMapper.get().mapTo(a))
-                  .collect(toList)
-          )
-    }
+  create(flag: TransactionFlag) {
+    if (flag.id) return Promise.reject("Account should not contains id ! ")
+    return axios.post(
+      "http://localhost:8000/api/transactionFlag",
+      TransactionFlagDtoMapper.get().mapFrom(flag)
+    )
+  }
 
-    createTx(tx: Transaction) {
-        if (tx.id) return Promise.reject("Account should not contains id ! ")
-        return axios.post(
-            "http://localhost:8000/api/transaction",
-            TransactionDtoMapper.get().mapFrom(tx)
-        )
-    }
+  update(flag: TransactionFlag) {
+    if (!flag.id) return Promise.reject("Account should contains id ! ")
+    return axios.put(
+      `http://localhost:8000/api/transactionFlag/${flag.id}`,
+      TransactionFlagDtoMapper.get().mapFrom(flag)
+    )
+  }
 
-    updateTx(tx: Transaction) {
-        if (!tx.id) return Promise.reject("Account should contains id ! ")
-        return axios.put(
-            `http://localhost:8000/api/transaction/${tx.id}`,
-            TransactionDtoMapper.get().mapFrom(tx)
-        )
-    }
+  delete(flags: List<number>) {
+    return axios
+      .delete(
+        `http://localhost:8000/api/transactionFlag?ids=${flags
+          .stream()
+          .join(",")}`
+      )
+      .then(() => {})
+  }
 
-    deleteTxs(txs: List<number>) {
-        return axios
-            .delete(
-                `http://localhost:8000/api/transaction?ids=${txs.stream().join(",")}`
-            )
-            .then(() => {
-            })
+  static get(): TransactionFlagApiService {
+    if (this.INSTANCE === null) {
+      this.INSTANCE = new TransactionFlagApiService()
     }
-
-    clearTxs(txs: List<number>) {
-        return axios
-            .get(
-                `http://localhost:8000/api/transaction/clear?ids=${txs.stream().join(",")}`
-            )
-            .then(() => {
-            })
-    }
-
-    duplicateTx(txId: number) {
-        return axios
-            .get(
-                `http://localhost:8000/api/transaction/${txId}/duplicate`
-            )
-            .then(() => {
-            })
-    }
-
-    static get(): TransactionApiService {
-        if (this.INSTANCE === null) {
-            this.INSTANCE = new TransactionApiService()
-        }
-        return this.INSTANCE
-    }
+    return this.INSTANCE
+  }
 }

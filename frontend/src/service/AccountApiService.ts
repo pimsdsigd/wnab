@@ -6,8 +6,8 @@ export type EnrichedAccount = Account & {
   balance: number
 }
 
-export class AccountService {
-  static INSTANCE: AccountService | null = null
+export class AccountApiService {
+  static INSTANCE: AccountApiService | null = null
 
   getAccounts(): Promise<List<Account>> {
     return axios
@@ -75,9 +75,9 @@ export class AccountService {
       .then(res => res.data as void)
   }
 
-  static get(): AccountService {
+  static get(): AccountApiService {
     if (this.INSTANCE === null) {
-      this.INSTANCE = new AccountService()
+      this.INSTANCE = new AccountApiService()
     }
     return this.INSTANCE
   }

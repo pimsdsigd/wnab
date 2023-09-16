@@ -1,2 +1,5 @@
 export * from "./AccountController"
 export * from "./TransactionController"
+export * from "./TransactionFlagController"
+export * from "./CategoryController"
+export * from "./PeerController"

@@ -6,6 +6,7 @@ import {PriceView} from "../PriceView"
 import {
   ArrayList,
   containsProperty,
+  Dict,
   KV,
   List,
   toList
@@ -105,7 +106,7 @@ export class BalanceCartouche extends React.Component<
               display: false
             },
             y: {
-              display: false,
+              display: false
               // type: "logarithmic"
             },
             yAxes: {
@@ -126,9 +127,15 @@ export class BalanceCartouche extends React.Component<
           labels: data.keys().getInner(),
           datasets: [
             {
-              fill: true,
-              data: data.values().getInner()
-            }
+              pointRadius: 2,
+              fill: 'origin',
+              borderJoinStyle: "bevel",
+              backgroundColor: 'rgba(102,129,78,0.5)',
+              borderWidth: 2,
+              data: data
+                .values()
+                .getInner()
+            },
           ]
         }}
         datasetIdKey="id"
@@ -136,7 +143,7 @@ export class BalanceCartouche extends React.Component<
     )
   }
 
-  private getChartData() {
+  private getChartData(): Dict<string, number> {
     const dates = this.generateDays()
     const obj = Object.fromEntries(
       dates

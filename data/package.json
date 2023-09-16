@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@damntools.fr/types": "^4.2.0",
-    "@damntools.fr/data": "^1.1.7",
+    "@damntools.fr/data": "^1.1.9",
     "@damntools.fr/utils-simple": "^5.2.0",
     "@types/luxon": "^3.3.2",
     "luxon": "^3.4.2"

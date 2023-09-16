@@ -161,7 +161,7 @@ function getSubCategories<T>(txFile: List<LoadedTx>) {
         new Category({
           hidden: false,
           name: p.sub,
-          parentCategory: { name: p.parent, hidden: false },
+          parentCategory: new Category({ name: p.parent, hidden: false }),
         }),
     )
     .unique((a, b) => a.name.localeCompare(b.name) === 0)
@@ -224,7 +224,7 @@ const completeTransactions = (
         status: TransactionStatus.fromYnabValue(c.status),
         date: c.date,
         description: c.description,
-        flag: TransactionFlag.fromString(c.flag),
+        flag: undefined,
       });
       if (defined(c.category)) {
         tx.category = subDbos.stream().find((p) => p.name === c.category.sub);

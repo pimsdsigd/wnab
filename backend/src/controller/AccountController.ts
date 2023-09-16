@@ -39,7 +39,6 @@ export class AccountController extends DataController<
   }
 
   setRoutes() {
-    super.setRoutes();
     this.get(
       "/balance",
       this.do(() => this.getAllAccountsBalance()),
@@ -68,6 +67,7 @@ export class AccountController extends DataController<
       "/:id/reconcile",
       this.do((r) => this.reconcile(r)),
     );
+    super.setRoutes();
   }
 
   private clearAll(r: Request): Promise<void> {

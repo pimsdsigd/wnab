@@ -28,7 +28,7 @@ export class AccountView extends React.Component<any, AccountViewState> {
           return (
             <div className={styles.AccountView}>
               <div>
-                <AccountInfoCartouche account={account} showButtons={true}/>
+                <AccountInfoCartouche account={account} showButtons={true} />
                 <TransactionConsumer>
                   {({txByAccount}) => {
                     const transactionList = txByAccount(account)
@@ -36,6 +36,7 @@ export class AccountView extends React.Component<any, AccountViewState> {
                       <div>
                         <BalanceCartouche transactions={transactionList} />
                         <TransactionTable
+                          account={viewedAccount}
                           transactions={transactionList}
                           showAccount={false}
                           key={UUID.random()}
