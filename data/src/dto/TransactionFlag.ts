@@ -5,6 +5,7 @@ export type TransactionFlagDto = DTO & {
   name: string
   color: string
   hidden: boolean
+  userProfileId: number
 }
 
 export interface TransactionFlagCtor {
@@ -12,6 +13,7 @@ export interface TransactionFlagCtor {
   name: string
   color: string
   hidden: boolean
+  userProfileId: number
 }
 
 export class TransactionFlag {
@@ -19,12 +21,14 @@ export class TransactionFlag {
   name: string
   color: string
   hidden: boolean
+  userProfileId: number
 
   constructor(ctor: TransactionFlagCtor) {
     this.id = ctor.id
     this.name = ctor.name
     this.color = ctor.color
     this.hidden = ctor.hidden
+    this.userProfileId = ctor.userProfileId
   }
 
   toString(): string {

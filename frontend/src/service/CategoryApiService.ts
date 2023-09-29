@@ -1,13 +1,21 @@
 import {ArrayList, List, toList} from "@damntools.fr/types"
 import {Category, CategoryDto, CategoryDtoMapper} from "@damntools.fr/wnab-data"
-import axios from "axios"
+import {AxiosService} from "./AxiosService"
+import {AxiosWrapper} from "@damntools.fr/http"
 
 export class CategoryApiService {
   static INSTANCE: CategoryApiService | null = null
+  private readonly axios: AxiosWrapper
+
+  constructor() {
+    this.axios = AxiosService.getAuthenticatedInstance().child({
+      baseURL: "/category"
+    })
+  }
 
   getAll(): Promise<List<Category>> {
-    return axios
-      .get("http://localhost:8000/api/category")
+    return this.axios
+      .get("")
       .then(res => new ArrayList<CategoryDto>(res.data))
       .then(res =>
         res
@@ -19,26 +27,19 @@ export class CategoryApiService {
 
   create(category: Category) {
     if (category.id) return Promise.reject("Category should not contains id ! ")
-    return axios.post(
-      "http://localhost:8000/api/category",
-      CategoryDtoMapper.get().mapFrom(category)
-    )
+    return this.axios.post("", CategoryDtoMapper.get().mapFrom(category))
   }
 
   update(category: Category) {
     if (!category.id) return Promise.reject("Category should contains id ! ")
-    return axios.put(
-      `http://localhost:8000/api/category/${category.id}`,
+    return this.axios.put(
+      `/${category.id}`,
       CategoryDtoMapper.get().mapFrom(category)
     )
   }
 
   delete(flags: List<number>) {
-    return axios
-      .delete(
-        `http://localhost:8000/api/category?ids=${flags.stream().join(",")}`
-      )
-      .then(() => {})
+    return this.axios.delete(`?ids=${flags.stream().join(",")}`).then(() => {})
   }
 
   static get(): CategoryApiService {

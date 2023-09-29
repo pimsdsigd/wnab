@@ -4,3 +4,4 @@ export * from "./PeerDtoMapper";
 export * from "./TransactionDtoMapper";
 export * from "./BudgetDtoMapper";
 export * from "./TransactionFlagDtoMapper";
+export * from "./UserProfileDtoMapper";

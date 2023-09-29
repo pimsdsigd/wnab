@@ -4,14 +4,18 @@ import {
   TransactionFlagDtoMapper,
 } from "@damntools.fr/wnab-data";
 import { TransactionFlagDataService } from "~/service";
-import { DataController, Http400Error } from "@damntools.fr/express-utils";
+import {
+  AuthenticatedDataController,
+  Http400Error,
+} from "@damntools.fr/express-utils";
 import {
   DataWriteError,
   SqlConstraintViolationError,
   SqlUniqueConstraintViolationError,
 } from "@damntools.fr/sqlite";
+import { AuthenticationIdHook } from "~/service/CustomAuthenticationProvider";
 
-export class TransactionFlagController extends DataController<
+export class TransactionFlagController extends AuthenticatedDataController<
   number,
   TransactionFlag,
   TransactionFlagDto
@@ -21,11 +25,13 @@ export class TransactionFlagController extends DataController<
       "/transactionFlag",
       TransactionFlagDataService.get(),
       TransactionFlagDtoMapper.get(),
+      "userProfileId",
+      AuthenticationIdHook,
       true,
     );
-    this.builder = this.builder.mapException<DataWriteError>(
-      DataWriteError,
-      (error) => {
+    this.builder = this.builder
+      .authenticated()
+      .mapException<DataWriteError>(DataWriteError, (error) => {
         if (error.reason() instanceof SqlUniqueConstraintViolationError)
           return new Http400Error(
             (error.reason() as SqlUniqueConstraintViolationError).constraint() +
@@ -34,7 +40,6 @@ export class TransactionFlagController extends DataController<
         if (error.reason() instanceof SqlConstraintViolationError)
           return new Http400Error(error.reason().message);
         return new Http400Error(error.message);
-      },
-    );
+      });
   }
 }

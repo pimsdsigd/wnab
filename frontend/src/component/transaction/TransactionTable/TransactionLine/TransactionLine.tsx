@@ -88,9 +88,9 @@ export class TransactionLine extends React.Component<
           {!isFuture ? (
             <span onClick={() => this.onClickStatus()}>
               {TransactionStatus.UNCLEARED.equals(tx.status) ? (
-                <span style={{color: "rgb(187,149,70)"}}>&#10007;</span>
+                <span style={{color: "rgb(187,149,70)"}} title={"Uncleared"}>&#10007;</span>
               ) : (
-                <span style={{color: "rgb(139, 175, 115)"}}>&#10003;</span>
+                <span style={{color: "rgb(139, 175, 115)"}} title={"Cleared"}>&#10003;</span>
               )}
             </span>
           ) : null}

@@ -4,14 +4,22 @@ import {
   TransactionFlagDto,
   TransactionFlagDtoMapper
 } from "@damntools.fr/wnab-data"
-import axios from "axios"
+import {AxiosWrapper} from "@damntools.fr/http"
+import {AxiosService} from "./AxiosService"
 
 export class TransactionFlagApiService {
   static INSTANCE: TransactionFlagApiService | null = null
+  private readonly axios: AxiosWrapper
+
+  constructor() {
+    this.axios = AxiosService.getAuthenticatedInstance().child({
+      baseURL: "/transactionFlag"
+    })
+  }
 
   getFlags(): Promise<List<TransactionFlag>> {
-    return axios
-      .get("http://localhost:8000/api/transactionFlag")
+    return this.axios
+      .get("")
       .then(res => new ArrayList<TransactionFlagDto>(res.data))
       .then(res =>
         res
@@ -23,24 +31,24 @@ export class TransactionFlagApiService {
 
   create(flag: TransactionFlag) {
     if (flag.id) return Promise.reject("Account should not contains id ! ")
-    return axios.post(
-      "http://localhost:8000/api/transactionFlag",
+    return this.axios.post(
+      "",
       TransactionFlagDtoMapper.get().mapFrom(flag)
     )
   }
 
   update(flag: TransactionFlag) {
     if (!flag.id) return Promise.reject("Account should contains id ! ")
-    return axios.put(
-      `http://localhost:8000/api/transactionFlag/${flag.id}`,
+    return this.axios.put(
+      `/${flag.id}`,
       TransactionFlagDtoMapper.get().mapFrom(flag)
     )
   }
 
   delete(flags: List<number>) {
-    return axios
+    return this.axios
       .delete(
-        `http://localhost:8000/api/transactionFlag?ids=${flags
+        `?ids=${flags
           .stream()
           .join(",")}`
       )

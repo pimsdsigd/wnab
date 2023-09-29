@@ -3,14 +3,14 @@ import {
   DateTimeTimestampMapper,
   EnumMapper,
 } from "@damntools.fr/data";
-import { SimpleDataAccessor } from "@damntools.fr/sqlite";
+import { CachedDataAccessor } from "@damntools.fr/sqlite";
 import {
   RecurringTransactionStep,
   TransactionDbo,
   TransactionStatus,
 } from "@damntools.fr/wnab-data";
 
-export class TransactionRepository extends SimpleDataAccessor<
+export class TransactionRepository extends CachedDataAccessor<
   number,
   TransactionDbo
 > {

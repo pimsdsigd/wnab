@@ -1,6 +1,6 @@
 import {DTO} from "@damntools.fr/data"
 import {DateTime} from "luxon"
-import {CategoryDto} from "./Category"
+import {Category, CategoryDto} from "./Category"
 
 export type BudgetDto = DTO & {
   id?: number
@@ -9,6 +9,7 @@ export type BudgetDto = DTO & {
   activity: number
   available: number
   category?: CategoryDto
+  userProfileId: number
 }
 
 export interface BudgetCtor {
@@ -17,8 +18,9 @@ export interface BudgetCtor {
   budgeted: number
   activity: number
   available: number
-  category?: CategoryDto
+  category?: Category
   categoryId?: number
+  userProfileId: number
 }
 
 export class Budget {
@@ -27,8 +29,9 @@ export class Budget {
   budgeted: number
   activity: number
   available: number
-  category?: CategoryDto
+  category?: Category
   categoryId?: number
+  userProfileId: number
 
   constructor(ctor: BudgetCtor) {
     this.id = ctor.id
@@ -38,6 +41,7 @@ export class Budget {
     this.available = ctor.available
     this.category = ctor.category
     this.categoryId = ctor.categoryId
+    this.userProfileId = ctor.userProfileId
   }
   toString(): string {
     return (

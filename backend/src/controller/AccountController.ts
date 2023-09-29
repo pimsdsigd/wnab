@@ -1,4 +1,5 @@
 import {
+  AuthenticatedDataController,
   DataController,
   switch404,
   withBody,
@@ -19,6 +20,7 @@ import {
 import { Request } from "express";
 import { DateTime } from "luxon";
 import { toList } from "@damntools.fr/types";
+import {AuthenticationIdHook} from "~/service/CustomAuthenticationProvider";
 
 export const filterTodayAndBefore =
   (t: DateTime) =>
@@ -29,13 +31,16 @@ export type ReconcileBodyDto = {
   amount: number;
 };
 
-export class AccountController extends DataController<
+export class AccountController extends AuthenticatedDataController<
   number,
   Account,
   AccountDto
 > {
   constructor() {
-    super("/account", AccountDataService.get(), AccountDtoMapper.get(), true);
+    super("/account", AccountDataService.get(), AccountDtoMapper.get(),
+        "userProfileId",
+        AuthenticationIdHook, true);
+    this.builder = this.builder.authenticated()
   }
 
   setRoutes() {
@@ -46,6 +51,10 @@ export class AccountController extends DataController<
     this.get(
       "/balance/split",
       this.do(() => this.getAllBalanceByAccount()),
+    );
+    this.get(
+      "/aom",
+      this.do(() => this.getAgeOfMoney()),
     );
     this.get(
       "/:id/aom",
@@ -83,7 +92,7 @@ export class AccountController extends DataController<
       .then((id) => this.idMapper().mapFrom(id))
       .then((accountId) =>
         withBody<ReconcileBodyDto>(r).then((body) =>
-          this.service<AccountDataService>().reconcile(accountId, body.amount),
+          this.service<AccountDataService>().reconcile(accountId, body.amount, 1),
         ),
       );
   }
@@ -96,7 +105,9 @@ export class AccountController extends DataController<
           .getById(id)
           .then<Account>(switch404)
           .then((account) =>
-            this.service<AccountDataService>().getAccountBalance(account.id as number),
+            this.service<AccountDataService>().getAccountBalance(
+              account.id as number,
+            ),
           );
       });
   }
@@ -160,6 +171,18 @@ export class AccountController extends DataController<
             ),
         );
     });
+  }
+
+  private getAgeOfMoney() {
+    const tomorrow = DateTime.now()
+      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+      .plus({ day: 1 });
+    return TransactionDataService.get()
+      .getAll()
+      .then((txs) =>
+        txs.stream().filter(filterTodayAndBefore(tomorrow)).collect(toList),
+      )
+      .then((txs) => AgeOfMoneyService.get().getAgeOfMoneyForTransactions(txs));
   }
 
   private getTransactions(r: Request) {

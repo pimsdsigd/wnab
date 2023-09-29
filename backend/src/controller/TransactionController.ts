@@ -5,7 +5,7 @@ import {
 } from "@damntools.fr/wnab-data";
 import { PeerDataService, TransactionDataService } from "~/service";
 import {
-  DataController,
+  AuthenticatedDataController,
   Http400Error,
   withBody,
   withBodyParam,
@@ -15,8 +15,9 @@ import {
 import { Request } from "express";
 import { DTO, ValueListMapper } from "@damntools.fr/data";
 import { containsProperty, List, toList } from "@damntools.fr/types";
+import { AuthenticationIdHook } from "~/service/CustomAuthenticationProvider";
 
-export class TransactionController extends DataController<
+export class TransactionController extends AuthenticatedDataController<
   number,
   Transaction,
   TransactionDto
@@ -26,8 +27,11 @@ export class TransactionController extends DataController<
       "/transaction",
       TransactionDataService.get(),
       TransactionDtoMapper.get(),
+      "userProfileId",
+      AuthenticationIdHook,
       true,
     );
+    this.builder = this.builder.authenticated();
   }
 
   setRoutes() {

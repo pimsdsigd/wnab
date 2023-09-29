@@ -1,0 +1,39 @@
+.BudgetActions {
+  margin: 10px auto;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+
+
+  > div {
+    margin: 2px auto;
+    display: inline-block;
+    font-size: 13px;
+    text-align: center;
+    padding: 5px 20px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    filter: brightness(0.9);
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    transition: all 80ms ease;
+
+    &:hover{
+      transition: all 80ms ease;
+      cursor: pointer;
+      filter: brightness(1.2);
+      border-left-color: rgba(255, 255, 255, 0.5);
+      border-right-color:  rgba(255, 255, 255, 0.5);
+    }
+
+    &.Warning{
+      background-color: rgba(255, 110, 0, 0.3);
+    }
+
+    &.Warning:hover{
+      border-left-color: rgba(255, 110, 0, 0.5);
+      border-right-color:  rgba(255, 110, 0, 0.5);
+    }
+  }
+}

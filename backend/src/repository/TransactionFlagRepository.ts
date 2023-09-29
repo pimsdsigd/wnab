@@ -1,8 +1,8 @@
-import { SimpleDataAccessor } from "@damntools.fr/sqlite";
+import { CachedDataAccessor } from "@damntools.fr/sqlite";
 import { BooleanNumberMapper } from "@damntools.fr/data";
-import {TransactionFlagDbo} from "@damntools.fr/wnab-data";
+import { TransactionFlagDbo } from "@damntools.fr/wnab-data";
 
-export class TransactionFlagRepository extends SimpleDataAccessor<
+export class TransactionFlagRepository extends CachedDataAccessor<
   number,
   TransactionFlagDbo
 > {

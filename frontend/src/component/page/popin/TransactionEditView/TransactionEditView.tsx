@@ -107,6 +107,7 @@ export class TransactionEditView extends React.Component<
                 return (
                   <PeerConsumer>
                     {({peers}) => {
+                      console.log(accounts, subCategories, peers)
                       const peerValues = this.getPeerValues(peers)
                       const accountsValues = this.getAccountValues(accounts)
                       const categoryValues =
@@ -399,7 +400,13 @@ export class TransactionEditView extends React.Component<
   private onChangeSearchPeer(value: Optionable<string>) {
     this.setState({
       peer: value.map(
-        v => new Peer({hidden: false, name: v, type: PeerType.PERSON})
+        v =>
+          new Peer({
+            userProfileId: 0, //TODO
+            hidden: false,
+            name: v,
+            type: PeerType.PERSON
+          })
       )
     })
   }
@@ -431,6 +438,7 @@ export class TransactionEditView extends React.Component<
       return
     }
     const tx = new Transaction({
+      userProfileId: 0, //TODO
       account: this.state.account.get(),
       cashFlow: this.state.cashFlow.get(),
       category: this.state.category.get(),

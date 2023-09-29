@@ -4,25 +4,28 @@ import {
   TransactionDto,
   TransactionDtoMapper
 } from "@damntools.fr/wnab-data"
-import axios from "axios"
+import {AxiosService} from "./AxiosService"
+import {AxiosWrapper} from "@damntools.fr/http"
 
 export class TransactionApiService {
   static INSTANCE: TransactionApiService | null = null
+  private readonly axios: AxiosWrapper
+
+  constructor() {
+    this.axios = AxiosService.getAuthenticatedInstance().child({
+      baseURL: "/transaction"
+    })
+  }
 
   getTxs(): Promise<List<Transaction>> {
-    return axios
-      .get("http://localhost:8000/api/transaction")
+    return this.axios
+      .get("")
       .then(res => new ArrayList<TransactionDto>(res.data))
       .then(res => {
         return res
           .stream()
           .map(a => {
-            if( a.id === 2216)
-              debugger
-            const re =  TransactionDtoMapper.get().mapTo(a)
-            if( a.id === 2216)
-              debugger
-            return re
+            return TransactionDtoMapper.get().mapTo(a)
           })
           .collect(toList)
       })
@@ -30,42 +33,24 @@ export class TransactionApiService {
 
   createTx(tx: Transaction) {
     if (tx.id) return Promise.reject("Transaction should not contains id ! ")
-    return axios.post(
-      "http://localhost:8000/api/transaction",
-      TransactionDtoMapper.get().mapFrom(tx)
-    )
+    return this.axios.post("", TransactionDtoMapper.get().mapFrom(tx))
   }
 
   updateTx(tx: Transaction) {
     if (!tx.id) return Promise.reject("Transaction should contains id ! ")
-    return axios.put(
-      `http://localhost:8000/api/transaction/${tx.id}`,
-      TransactionDtoMapper.get().mapFrom(tx)
-    )
+    return this.axios.put(`/${tx.id}`, TransactionDtoMapper.get().mapFrom(tx))
   }
 
   deleteTxs(txs: List<number>) {
-    return axios
-      .delete(
-        `http://localhost:8000/api/transaction?ids=${txs.stream().join(",")}`
-      )
-      .then(() => {})
+    return this.axios.delete(`?ids=${txs.stream().join(",")}`).then(() => {})
   }
 
   clearTxs(txs: List<number>) {
-    return axios
-      .get(
-        `http://localhost:8000/api/transaction/clear?ids=${txs
-          .stream()
-          .join(",")}`
-      )
-      .then(() => {})
+    return this.axios.get(`/clear?ids=${txs.stream().join(",")}`).then(() => {})
   }
 
   duplicateTx(txId: number) {
-    return axios
-      .get(`http://localhost:8000/api/transaction/${txId}/duplicate`)
-      .then(() => {})
+    return this.axios.get(`/${txId}/duplicate`).then(() => {})
   }
 
   static get(): TransactionApiService {

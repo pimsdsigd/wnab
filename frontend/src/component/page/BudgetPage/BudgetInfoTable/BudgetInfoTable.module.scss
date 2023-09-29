@@ -1,0 +1,75 @@
+
+.InfoTable {
+
+  > div{
+    padding: 10px 0;
+
+    > div:first-child {
+      border-top: 0 solid grey;
+    }
+
+    > div:last-child {
+      border-top: 2px solid grey;
+    }
+  }
+
+  > div > div {
+    border-top: 1px solid grey;
+    display: flex;
+    padding: 5px 10px;
+    & > span:first-child{
+      flex: 1 0;
+    }
+    & > span:last-child{
+      flex: 0 1;
+    }
+  }
+}
+
+.BudgetAssignForm{
+  width: 100%;
+
+  & > div {
+    padding: 10px;
+  }
+
+  & > div > div {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  & > div > div> div {
+    margin-bottom: 10px;
+  }
+
+}
+
+.AssignFormButtons {
+  text-align: right;
+  color: white;
+
+  div {
+    display: inline-block;
+    margin: 5px 5px;
+  }
+
+  span {
+    border-radius: 5px;
+    padding: 5px 10px;
+
+    &:hover{
+      cursor: pointer;
+      filter: brightness(1.2);
+    }
+  }
+
+  span:first-child {
+    background-color:rgba(144, 180, 33, 0.5);;
+  }
+
+  span:last-child {
+    background-color: rgba(171, 41, 41, 0.5);
+  }
+}

@@ -1,6 +1,7 @@
 import {ArrayList, defined, List, toList} from "@damntools.fr/types"
 import {Account, AccountDto, AccountDtoMapper} from "@damntools.fr/wnab-data"
-import axios from "axios"
+import {AxiosWrapper} from "@damntools.fr/http"
+import {AxiosService} from "./AxiosService"
 
 export type EnrichedAccount = Account & {
   balance: number
@@ -8,10 +9,17 @@ export type EnrichedAccount = Account & {
 
 export class AccountApiService {
   static INSTANCE: AccountApiService | null = null
+  private readonly axios: AxiosWrapper
+
+  constructor() {
+    this.axios = AxiosService.getAuthenticatedInstance().child({
+      baseURL: "/account"
+    })
+  }
 
   getAccounts(): Promise<List<Account>> {
-    return axios
-      .get("http://localhost:8000/api/account")
+    return this.axios
+      .get("")
       .then(res => new ArrayList<AccountDto>(res.data))
       .then(res =>
         res
@@ -22,8 +30,8 @@ export class AccountApiService {
   }
 
   getSplitBalances(accounts: List<Account>): Promise<List<EnrichedAccount>> {
-    return axios
-      .get("http://localhost:8000/api/account/balance/split")
+    return this.axios
+      .get("/balance/split")
       .then(res => res.data as any)
       .then(res => {
         return accounts
@@ -37,16 +45,13 @@ export class AccountApiService {
 
   createAccount(account: Account) {
     if (account.id) return Promise.reject("Account should not contains id ! ")
-    return axios.post(
-      "http://localhost:8000/api/account",
-      AccountDtoMapper.get().mapFrom(account)
-    )
+    return this.axios.post("", AccountDtoMapper.get().mapFrom(account))
   }
 
   updateAccount(account: Account) {
     if (!account.id) return Promise.reject("Account should contains id ! ")
-    return axios.put(
-      `http://localhost:8000/api/account/${account.id}`,
+    return this.axios.put(
+      `/${account.id}`,
       AccountDtoMapper.get().mapFrom(account)
     )
   }
@@ -62,14 +67,12 @@ export class AccountApiService {
   }
 
   clearAll(account: Account) {
-    return axios
-      .get(`http://localhost:8000/api/account/${account.id}/clear`)
-      .then(res => res.data as void)
+    return this.axios.get(`/${account.id}/clear`).then(res => res.data as void)
   }
 
   reconcile(account: Account, amount: number) {
-    return axios
-      .put(`http://localhost:8000/api/account/${account.id}/reconcile`, {
+    return this.axios
+      .put(`/${account.id}/reconcile`, {
         amount
       })
       .then(res => res.data as void)

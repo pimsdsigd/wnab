@@ -50,7 +50,7 @@ export class AccountDataService extends AbstractDataService<
       .then(() => {});
   }
 
-  reconcile(accountId: number, amount: number): Promise<void> {
+  reconcile(accountId: number, amount: number, userProfileId: number): Promise<void> {
     return this.clearAll(accountId)
       .then(() => this.getAccountBalance(accountId))
       .then((balance) => amount - balance)
@@ -66,6 +66,7 @@ export class AccountDataService extends AbstractDataService<
                   .getById(accountId)
                   .then((acc) => {
                     return new Transaction({
+                      userProfileId,
                       account: acc,
                       cashFlow: diff,
                       category: cat,

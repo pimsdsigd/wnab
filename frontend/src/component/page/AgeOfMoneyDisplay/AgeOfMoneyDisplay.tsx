@@ -1,10 +1,11 @@
 import React from "react"
 import styles from "./AgeOfMoneyDisplay.module.scss"
 import {Optionable, Optional} from "@damntools.fr/types"
-import axios from "axios"
+import {AxiosService} from "../../../service/AxiosService"
+import {AuthenticatedWrapper} from "@damntools.fr/http"
 
 export type AgeOfMoneyDisplayProps = {
-  accountId: number | undefined
+  accountId?: number
 }
 
 export type AgeOfMoneyDisplayState = {
@@ -18,14 +19,20 @@ export class AgeOfMoneyDisplay extends React.Component<
   state: AgeOfMoneyDisplayState = {
     aom: Optional.empty()
   }
+  private readonly axios: AuthenticatedWrapper
+
+  constructor(props: AgeOfMoneyDisplayProps) {
+    super(props)
+    this.axios = AxiosService.getAuthenticatedInstance().child({
+      baseURL: "/account"
+    })
+  }
 
   componentDidMount() {
     let promise = null
     if (this.props.accountId)
-      promise = axios.get(
-        `http://localhost:8000/api/account/${this.props.accountId}/aom`
-      )
-    else promise = axios.get(`http://localhost:8000/api/account/aom`)
+      promise = this.axios.get(`/${this.props.accountId}/aom`)
+    else promise = this.axios.get(`/aom`)
     promise
       .then(res => res.data as number)
       .then(aom => this.setState({aom: Optional.of(aom)}))

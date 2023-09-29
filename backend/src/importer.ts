@@ -1,33 +1,27 @@
-import {
-  consoleTransport,
-  Logging,
-  LogLevel,
-  nativeConsoleInterceptor,
-} from "@damntools.fr/logger-simple";
-import { SqliteDb } from "@damntools.fr/sqlite";
+import {consoleTransport, Logging, LogLevel, nativeConsoleInterceptor,} from "@damntools.fr/logger-simple";
+import {SqliteDb} from "@damntools.fr/sqlite";
 import * as process from "process";
 import * as path from "path";
 import * as fs from "fs";
-import { Collectors, defined, List } from "@damntools.fr/types";
-import { DateTime } from "luxon";
-import { StringUtils } from "@damntools.fr/utils-simple";
+import {Collectors, defined, List} from "@damntools.fr/types";
+import {DateTime} from "luxon";
+import {StringUtils} from "@damntools.fr/utils-simple";
 import {
-  Account,
-  AccountType,
-  Budget,
-  Category,
-  Peer,
-  PeerType,
-  Transaction,
-  TransactionFlag,
-  TransactionStatus,
+    Account,
+    AccountType,
+    Budget,
+    Category,
+    Peer,
+    PeerType,
+    Transaction,
+    TransactionStatus,
 } from "@damntools.fr/wnab-data";
 import {
-  AccountDataService,
-  BudgetDataService,
-  CategoryDataService,
-  PeerDataService,
-  TransactionDataService,
+    AccountDataService,
+    BudgetDataService,
+    CategoryDataService,
+    PeerDataService,
+    TransactionDataService,
 } from "~/service";
 
 // process.env["CLEAN_AT_EXIT"] = "true";
@@ -62,6 +56,8 @@ Logging.configure({
   nativeConsoleInterceptor,
   level: LogLevel.DEBUG,
 });
+
+const USER_PROFILE_ID = 1;
 
 const TRANSACTION_FILE_PATH =
   process.env["TRANSACTION_FILE_PATH"] || path.join(".", "export.tx.csv");
@@ -145,7 +141,14 @@ function getParentCategories<T>(txFile: List<LoadedTx>) {
     .filter(StringUtils.notEmpty)
     .unique()
     .sort()
-    .map((p) => new Category({ hidden: false, name: p }))
+    .map(
+      (p) =>
+        new Category({
+          hidden: false,
+          name: p,
+          userProfileId: USER_PROFILE_ID,
+        }),
+    )
     .collect(Collectors.toList);
 }
 
@@ -161,7 +164,12 @@ function getSubCategories<T>(txFile: List<LoadedTx>) {
         new Category({
           hidden: false,
           name: p.sub,
-          parentCategory: new Category({ name: p.parent, hidden: false }),
+          parentCategory: new Category({
+            name: p.parent,
+            hidden: false,
+            userProfileId: USER_PROFILE_ID,
+          }),
+          userProfileId: USER_PROFILE_ID,
         }),
     )
     .unique((a, b) => a.name.localeCompare(b.name) === 0)
@@ -176,7 +184,15 @@ function getPeers<T>(txFile: List<LoadedTx>): List<Peer> {
     .filter(StringUtils.notEmpty)
     .unique()
     .sort()
-    .map((p) => new Peer({ hidden: false, name: p, type: PeerType.ENTITY }))
+    .map(
+      (p) =>
+        new Peer({
+          hidden: false,
+          name: p,
+          type: PeerType.ENTITY,
+          userProfileId: USER_PROFILE_ID,
+        }),
+    )
     .collect(Collectors.toList);
 }
 
@@ -189,7 +205,12 @@ function getAccounts<T>(txFile: List<LoadedTx>) {
     .sort()
     .map(
       (p) =>
-        new Account({ closed: false, name: p, type: AccountType.DAILY_USAGE }),
+        new Account({
+          closed: false,
+          name: p,
+          type: AccountType.DAILY_USAGE,
+          userProfileId: USER_PROFILE_ID,
+        }),
     )
     .collect(Collectors.toList);
 }
@@ -225,6 +246,7 @@ const completeTransactions = (
         date: c.date,
         description: c.description,
         flag: undefined,
+        userProfileId: USER_PROFILE_ID,
       });
       if (defined(c.category)) {
         tx.category = subDbos.stream().find((p) => p.name === c.category.sub);
@@ -252,11 +274,13 @@ function completeBudgetWithCategories(
         available: b.available,
         budgeted: b.budgeted,
         month: b.month,
+        userProfileId: USER_PROFILE_ID,
       });
       if (b.category && b.category.parent && b.category.sub) {
         data.category = categories
           .stream()
           .find((c) => c.name === b.category.sub);
+        if (!data.category) debugger;
       }
       return data;
     })

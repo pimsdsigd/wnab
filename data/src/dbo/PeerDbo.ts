@@ -7,4 +7,5 @@ export interface PeerDbo extends DBO<number> {
   type: PeerType
   hidden: boolean
   categoryId?: number
+  userProfileId: number
 }

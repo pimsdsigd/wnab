@@ -7,9 +7,10 @@
     "@damntools.fr/logger-simple": "^3.3.0",
     "@damntools.fr/react-alert": "2.3.1",
     "@damntools.fr/react-globals": "^1.0.3",
-    "@damntools.fr/react-inputs": "2.8.2",
-    "@damntools.fr/react-utils": "1.4.1",
-    "@damntools.fr/types": "^4.2.2",
+    "@damntools.fr/react-inputs": "2.9.1",
+    "@damntools.fr/http": "1.0.14",
+    "@damntools.fr/react-utils": "1.4.2",
+    "@damntools.fr/types": "^4.2.6",
     "@damntools.fr/utils-simple": "^5.2.0",
     "@damntools.fr/wnab-data": "../data",
     "@testing-library/jest-dom": "^5.17.0",
@@ -39,7 +40,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-react": "^7.22.15",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",

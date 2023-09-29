@@ -5,4 +5,5 @@ export interface CategoryDbo extends DBO<number> {
   name: string
   hidden: boolean
   parentId?: number
+  userProfileId: number
 }

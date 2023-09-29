@@ -1,51 +1,54 @@
 import React from "react"
 import {HashRouter, Route, Switch} from "react-router-dom"
 import styles from "./App.module.scss"
-import {AlertProvider} from "@damntools.fr/react-alert"
 import {Globals} from "@damntools.fr/react-globals"
 import {
   AccountView,
   AppContent,
+  BudgetPage,
   CategoryView,
   FlagView,
   LoaderDiv,
+  LoginPage,
   PeerView,
+  ReportPage,
   TransactionOverview
 } from "./component"
 import {
-  AccountProvider,
-  CategoryProvider,
-  PeerProvider,
-  TransactionProvider
-} from "./service"
+  AuthenticationConsumer,
+  AuthenticationProvider
+} from "./service/provider/AuthenticationProvider"
 
 export class App extends React.Component {
   render() {
     const title = Globals.get<string>("description.title").orElseReturn("WNAB?")
     return (
       <HashRouter>
-        <AccountProvider>
-          <TransactionProvider>
-            <CategoryProvider>
-              <PeerProvider>
-                <AlertProvider theme={"dark"}>
-                  <div className={styles.HomeMainFrame}>
-                    <div className={styles.MainAppBlock}>
-                      <div className={styles.Header}>
-                        <div className={styles.HeaderContent}>
-                          Welcome on <span>{title}</span>
-                        </div>
+        <AuthenticationProvider>
+          <AuthenticationConsumer>
+            {({isAuthenticated, logout}) => {
+              return isAuthenticated ? (
+                <div className={styles.HomeMainFrame}>
+                  <div className={styles.MainAppBlock}>
+                    <div className={styles.Header}>
+                      <div className={styles.HeaderContent}>
+                        Welcome on <span>{title}</span>
                       </div>
-                      <div className={styles.MainPanel}>
-                        {this.getSwitchRoutes()}
+                      <div className={styles.HeaderActions}>
+                        <span onClick={logout}>Logout</span>
                       </div>
                     </div>
+                    <div className={styles.MainPanel}>
+                      {this.getSwitchRoutes()}
+                    </div>
                   </div>
-                </AlertProvider>
-              </PeerProvider>
-            </CategoryProvider>
-          </TransactionProvider>
-        </AccountProvider>
+                </div>
+              ) : (
+                <LoginPage />
+              )
+            }}
+          </AuthenticationConsumer>
+        </AuthenticationProvider>
       </HashRouter>
     )
   }
@@ -64,9 +67,17 @@ export class App extends React.Component {
         </Route>
         <Route exact path="/budget">
           <AppContent>
-            <LoaderDiv />
+            <BudgetPage />
           </AppContent>
         </Route>
+        <Route
+          path="/budget/:date"
+          render={props => (
+            <AppContent>
+              <BudgetPage {...props} />
+            </AppContent>
+          )}
+        />
         <Route exact path="/account">
           <AppContent>
             <LoaderDiv />
@@ -104,16 +115,24 @@ export class App extends React.Component {
         </Route>
         <Route exact path="/report">
           <AppContent>
-            <LoaderDiv />
+            <ReportPage />
           </AppContent>
         </Route>
+        <Route
+          path="/report/:type"
+          render={props => (
+            <AppContent>
+              <ReportPage {...props} />
+            </AppContent>
+          )}
+        />
         <Route exact path="/overview">
           <AppContent>
             <TransactionOverview />
           </AppContent>
         </Route>
         <Route
-            exact
+          exact
           path="/account/:id"
           render={props => (
             <AppContent>

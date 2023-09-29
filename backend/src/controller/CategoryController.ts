@@ -4,10 +4,15 @@ import {
   CategoryDtoMapper,
 } from "@damntools.fr/wnab-data";
 import { CategoryDataService } from "~/service";
-import { DataController } from "@damntools.fr/express-utils";
+import {
+  AuthenticatedDataController,
+  Authentication,
+  EnhancedRequest,
+} from "@damntools.fr/express-utils";
 import { Collectors, List } from "@damntools.fr/types";
+import { AuthenticationIdHook } from "~/service/CustomAuthenticationProvider";
 
-export class CategoryController extends DataController<
+export class CategoryController extends AuthenticatedDataController<
   number,
   Category,
   CategoryDto
@@ -17,33 +22,56 @@ export class CategoryController extends DataController<
       "/category",
       CategoryDataService.get(),
       CategoryDtoMapper.get(),
+      "userProfileId",
+      AuthenticationIdHook,
       true,
     );
+    this.builder = this.builder.authenticated();
   }
 
   setRoutes() {
-    this.get("/parent", this.do(() => this.getAllParentCategories()))
-    this.get("/sub", this.do(() => this.getAllSubCategories()))
+    this.get(
+      "/parent",
+      this.do((request) => this.getAllParentCategories(request)),
+    );
+    this.get(
+      "/sub",
+      this.do((request) => this.getAllSubCategories(request)),
+    );
     super.setRoutes();
   }
 
-  private getAllParentCategories(): Promise<List<CategoryDto>> {
+  private getAllParentCategories(
+    request: EnhancedRequest,
+  ): Promise<List<CategoryDto>> {
     return this.service<CategoryDataService>()
       .getAllParentCategories()
       .then((categories) =>
         categories
           .stream()
+          .filter(
+            (c) =>
+              c.userProfileId ===
+              AuthenticationIdHook(request.auth as Authentication<any>),
+          )
           .map((c) => this.mapper().mapFrom(c))
           .collect(Collectors.toList),
       );
   }
 
-  private getAllSubCategories(): Promise<List<CategoryDto>> {
+  private getAllSubCategories(
+    request: EnhancedRequest,
+  ): Promise<List<CategoryDto>> {
     return this.service<CategoryDataService>()
       .getAllSubCategories()
       .then((categories) =>
         categories
           .stream()
+          .filter(
+            (c) =>
+              c.userProfileId ===
+              AuthenticationIdHook(request.auth as Authentication<any>),
+          )
           .map((c) => this.mapper().mapFrom(c))
           .collect(Collectors.toList),
       );

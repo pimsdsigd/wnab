@@ -1,8 +1,8 @@
-import { SimpleDataAccessor } from "@damntools.fr/sqlite";
+import { CachedDataAccessor } from "@damntools.fr/sqlite";
 import { BudgetDbo } from "@damntools.fr/wnab-data";
 import { DateTimeTimestampMapper } from "@damntools.fr/data";
 
-export class BudgetRepository extends SimpleDataAccessor<number, BudgetDbo> {
+export class BudgetRepository extends CachedDataAccessor<number, BudgetDbo> {
   static INSTANCE: BudgetRepository | null = null;
 
   constructor() {

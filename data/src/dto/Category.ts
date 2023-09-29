@@ -5,6 +5,7 @@ export type CategoryDto = DTO & {
   name: string
   hidden: boolean
   parentCategory?: CategoryDto
+  userProfileId: number
 }
 
 export interface CategoryCtor {
@@ -13,6 +14,7 @@ export interface CategoryCtor {
   hidden: boolean
   parentCategory?: Category
   parentId?: Category
+  userProfileId: number
 }
 
 export class Category {
@@ -21,6 +23,7 @@ export class Category {
   hidden: boolean
   parentCategory?: Category
   parentId?: Category
+  userProfileId: number
 
   constructor(ctor: CategoryCtor) {
     this.id = ctor.id
@@ -28,6 +31,7 @@ export class Category {
     this.hidden = ctor.hidden
     this.parentCategory = ctor.parentCategory
     this.parentId = ctor.parentId
+    this.userProfileId = ctor.userProfileId
   }
 
   toString(): string {

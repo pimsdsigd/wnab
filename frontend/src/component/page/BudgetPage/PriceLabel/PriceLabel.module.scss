@@ -1,0 +1,67 @@
+
+.PriceLabel {
+  font-weight: initial;
+  margin: 1px auto;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 13px;
+  display: inline-block;
+
+  &.WithBackground {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.LabelPositive {
+  color: rgb(142, 204, 26);
+}
+
+.LabelNegative {
+  color: rgb(255, 106, 106);
+}
+
+.PriceLabel span:first-child {
+  margin-right: 5px;
+}
+
+.PriceLabel:not(.Clickable) {
+  cursor: default;
+}
+
+.StatusAvailable {
+  &.WithBackground {
+    background-color: rgba(20, 140, 161, 0.5);
+  }
+
+  color: white;
+}
+
+.StatusAvailable.LabelPositive {
+  &.WithBackground {
+    background-color: rgba(113, 161, 20, 0.5);
+  }
+
+  color: white;
+}
+
+.StatusAvailable.LabelNegative {
+  &.WithBackground {
+    background-color: rgba(171, 41, 41, 0.5);
+  }
+
+  color: white;
+}
+
+.StatusPending {
+  &.WithBackground {
+    background-color: rgba(173, 118, 39, 0.5);
+  }
+
+  color: white;
+}
+
+.Clickable {
+  &:hover {
+    cursor: pointer;
+  }
+}

@@ -23,6 +23,7 @@ export type TransactionDto = DTO & {
   accountId?: number
   flag?: TransactionFlagDto
   flagId?: number
+  userProfileId: number
 }
 
 export type TransactionCtor = {
@@ -41,6 +42,7 @@ export type TransactionCtor = {
   accountId?: number
   flag?: TransactionFlag
   flagId?: number
+  userProfileId: number
 }
 
 export class Transaction {
@@ -59,6 +61,7 @@ export class Transaction {
   accountId?: number
   flag?: TransactionFlag
   flagId?: number
+  userProfileId: number
 
   constructor(ctor: TransactionCtor) {
     this.id = ctor.id
@@ -76,6 +79,7 @@ export class Transaction {
     this.accountId = ctor.accountId
     this.flag = ctor.flag
     this.flagId = ctor.flagId
+    this.userProfileId = ctor.userProfileId
   }
 
   toString(): string {

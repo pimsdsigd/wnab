@@ -8,4 +8,5 @@ export interface BudgetDbo extends DBO<number> {
   activity: number
   available: number
   categoryId?: number
+  userProfileId: number
 }

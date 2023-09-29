@@ -70,6 +70,7 @@ export class RecurringTransactionTask {
     );
     const nextMonth = this.getNextMonth();
     const newTx = new Transaction({
+      userProfileId: tx.userProfileId,
       account: tx.account,
       accountId: tx.accountId,
       cashFlow: tx.cashFlow,

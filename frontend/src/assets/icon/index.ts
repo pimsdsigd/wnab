@@ -28,13 +28,19 @@ import png_bank from "./bank.png"
 import png_asterisk from "./asterisk.png"
 import png_settings from "./settings.png"
 import png_flag from "./flag.png"
+import png_chart_pie from "./chart_pie.png"
+import png_chart_line from "./chart_line.png"
+import png_chart_candle from "./chart_candle.png"
 
 export {
   png_sort_asc,
   png_flag,
   png_settings,
   png_bank,
+  png_chart_candle,
+  png_chart_line,
   png_category,
+  png_chart_pie,
   png_asterisk,
   png_add_account,
   png_peer_logo,

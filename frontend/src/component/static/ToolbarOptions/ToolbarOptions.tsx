@@ -9,6 +9,7 @@ import {
   png_settings
 } from "../../../assets"
 import {MaskedImage, RGBA} from "@damntools.fr/react-utils"
+import {AuthenticationConsumer} from "../../../service/provider/AuthenticationProvider";
 
 export type MenuPanelState = {
   expandToolbar: boolean
@@ -24,25 +25,27 @@ export class ToolbarOptions extends React.Component<any, MenuPanelState> {
 
   render() {
     return (
-      <div className={styles.ToolbarOptions}>
-        <div className={styles.ToolbarTitle}>
-          <div>
-            <span>Hello</span>
-          </div>
-          <div>
+        <AuthenticationConsumer>{({authentication})=>
+            <div className={styles.ToolbarOptions}>
+                <div className={styles.ToolbarTitle}>
+                    <div>
+                        <span>Hello {authentication.map(a => a.login).orElseReturn("")}</span>
+                    </div>
+                    <div>
             <span
-              title={"Click to expand/hide"}
-              onClick={() =>
-                this.setState({expandToolbar: !this.state.expandToolbar})
-              }>
+                title={"Click to expand/hide"}
+                onClick={() =>
+                    this.setState({expandToolbar: !this.state.expandToolbar})
+                }>
               {!this.state.expandToolbar ? "▼" : "▲"}
             </span>
-          </div>
-        </div>
-        <div className={styles.ToolbarExpand}>
-          {this.state.expandToolbar ? this.getToolbar() : null}
-        </div>
-      </div>
+                    </div>
+                </div>
+                <div className={styles.ToolbarExpand}>
+                    {this.state.expandToolbar ? this.getToolbar() : null}
+                </div>
+            </div>
+        }</AuthenticationConsumer>
     )
   }
 

@@ -1,8 +1,8 @@
-import { SimpleDataAccessor } from "@damntools.fr/sqlite";
+import { CachedDataAccessor } from "@damntools.fr/sqlite";
 import { CategoryDbo } from "@damntools.fr/wnab-data";
 import { BooleanNumberMapper } from "@damntools.fr/data";
 
-export class CategoryRepository extends SimpleDataAccessor<
+export class CategoryRepository extends CachedDataAccessor<
   number,
   CategoryDbo
 > {

@@ -1,13 +1,21 @@
 import {ArrayList, List, toList} from "@damntools.fr/types"
 import {Peer, PeerDto, PeerDtoMapper} from "@damntools.fr/wnab-data"
-import axios from "axios"
+import {AxiosWrapper} from "@damntools.fr/http"
+import {AxiosService} from "./AxiosService"
 
 export class PeerApiService {
   static INSTANCE: PeerApiService | null = null
+  private readonly axios: AxiosWrapper
+
+  constructor() {
+    this.axios = AxiosService.getAuthenticatedInstance().child({
+      baseURL: "/peer"
+    })
+  }
 
   getPeers(): Promise<List<Peer>> {
-    return axios
-      .get("http://localhost:8000/api/peer")
+    return this.axios
+      .get("")
       .then(res => new ArrayList<PeerDto>(res.data))
       .then(res =>
         res
@@ -19,26 +27,19 @@ export class PeerApiService {
 
   create(peer: Peer) {
     if (peer.id) return Promise.reject("Peer should not contains id ! ")
-    return axios.post(
-      "http://localhost:8000/api/peer",
-      PeerDtoMapper.get().mapFrom(peer)
-    )
-        .then(res =>res.data as PeerDto)
-        .then(res =>PeerDtoMapper.get().mapTo(res))
+    return this.axios
+      .post("", PeerDtoMapper.get().mapFrom(peer))
+      .then(res => res.data as PeerDto)
+      .then(res => PeerDtoMapper.get().mapTo(res))
   }
 
   update(peer: Peer) {
     if (!peer.id) return Promise.reject("Peer should contains id ! ")
-    return axios.put(
-      `http://localhost:8000/api/peer/${peer.id}`,
-      PeerDtoMapper.get().mapFrom(peer)
-    )
+    return this.axios.put(`/${peer.id}`, PeerDtoMapper.get().mapFrom(peer))
   }
 
   delete(flags: List<number>) {
-    return axios
-      .delete(`http://localhost:8000/api/peer?ids=${flags.stream().join(",")}`)
-      .then(() => {})
+    return this.axios.delete(`?ids=${flags.stream().join(",")}`).then(() => {})
   }
 
   static get(): PeerApiService {

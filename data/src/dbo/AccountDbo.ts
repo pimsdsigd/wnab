@@ -6,4 +6,5 @@ export interface AccountDbo extends DBO<number> {
   name: string
   type: AccountType
   closed: boolean
+  userProfileId: number
 }

@@ -16,7 +16,7 @@ Logging.configure({
   printEmptyMessage: true,
   transports: [
     consoleTransport({
-      pattern: "[%V] %L{-15} %red>%Cend %m"
+      pattern: "[%V] %L %red>%Cend %m"
     })
   ],
   collectLocationInfo: true,

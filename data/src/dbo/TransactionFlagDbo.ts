@@ -5,4 +5,5 @@ export interface TransactionFlagDbo extends DBO<number> {
   name: string
   color: string
   hidden: boolean
+  userProfileId: number
 }

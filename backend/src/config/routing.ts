@@ -2,10 +2,15 @@ import express from "express";
 import { Logging } from "@damntools.fr/logger-simple";
 import {
   AccountController,
+  BudgetController,
   TransactionController,
   TransactionFlagController,
+  UserProfileController,
 } from "~/controller";
-import { Controller } from "@damntools.fr/express-utils";
+import {
+  AuthenticationController,
+  Controller,
+} from "@damntools.fr/express-utils";
 import { Lists } from "@damntools.fr/types";
 import { CategoryController } from "~/controller/CategoryController";
 import { PeerController } from "~/controller/PeerController";
@@ -22,10 +27,13 @@ export default function routing() {
     new CategoryController(),
     new PeerController(),
     new TransactionFlagController(),
+    new BudgetController(),
+    new AuthenticationController(),
+    new UserProfileController(),
   );
 
   controllers.forEach((controller) => {
-    controller.register(router);
+    controller.registerOn(router);
     controller.printRoutes();
   });
 

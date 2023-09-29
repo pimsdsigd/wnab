@@ -15,4 +15,5 @@ export interface TransactionDbo extends DBO<number> {
   peerId?: number;
   accountId?: number;
   flagId?: number;
+  userProfileId: number
 }

@@ -7,6 +7,7 @@ export type AccountDto = DTO & {
   type: string
   closed: boolean
   balance?: number
+  userProfileId: number
 }
 
 export interface AccountCtor {
@@ -15,6 +16,7 @@ export interface AccountCtor {
   type: AccountType
   closed: boolean
   balance?: number
+  userProfileId: number
 }
 
 export class Account {
@@ -22,12 +24,14 @@ export class Account {
   name: string
   type: AccountType
   closed: boolean
+  userProfileId: number
 
   constructor(ctor: AccountCtor) {
     this.id = ctor.id
     this.name = ctor.name
     this.type = ctor.type
     this.closed = ctor.closed
+    this.userProfileId = ctor.userProfileId
   }
 
   toString(): string {

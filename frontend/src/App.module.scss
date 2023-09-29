@@ -32,6 +32,11 @@
     }
 }
 
+.HeaderActions {
+    flex: 0 1;
+    text-align: right;
+}
+
 .MainPanel {
     flex: 1 0;
     overflow: hidden;

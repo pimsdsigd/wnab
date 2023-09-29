@@ -1,8 +1,8 @@
 import { BooleanNumberMapper, EnumMapper } from "@damntools.fr/data";
 import { AccountDbo, AccountType } from "@damntools.fr/wnab-data";
-import { SimpleDataAccessor } from "@damntools.fr/sqlite";
+import { CachedDataAccessor } from "@damntools.fr/sqlite";
 
-export class AccountRepository extends SimpleDataAccessor<number, AccountDbo> {
+export class AccountRepository extends CachedDataAccessor<number, AccountDbo> {
   static INSTANCE: AccountRepository | null = null;
 
   constructor() {

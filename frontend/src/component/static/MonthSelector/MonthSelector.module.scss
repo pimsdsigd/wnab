@@ -1,0 +1,66 @@
+.MonthSelector {
+  width: inherit;
+  height: inherit;
+
+  > div {
+    display: table;
+  }
+}
+
+.Left, .Right {
+  flex: 0 1;
+  padding: 5px 10px;
+  display: table-cell;
+  vertical-align: middle;
+
+  > span {
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 15px;
+    border: 3px solid white;
+    color: white;
+
+    &:hover{
+      cursor: pointer;
+      border: 3px solid #71a114;
+      color: #f88744;
+    }
+  }
+}
+
+.Left {
+
+}
+
+.Right {
+
+}
+
+.Middle {
+  flex: 1 0;
+  display: table-cell;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+  padding: 5px 10px;
+  width: 120px;
+
+  > div {
+    vertical-align: middle;
+
+    > div {
+      vertical-align: middle;
+    }
+  }
+}
+
+.Year{
+  font-size: 26px;
+}
+
+.Month{
+  font-size: 18px;
+  font-weight: bold;
+}

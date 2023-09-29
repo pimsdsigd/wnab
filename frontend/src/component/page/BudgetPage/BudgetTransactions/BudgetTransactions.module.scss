@@ -1,0 +1,65 @@
+.BudgetTransactions {
+  overflow: auto;
+  flex: 1 0;
+
+  > div{
+    width: 100%;
+  }
+
+  > div > div {
+    width: 100%;
+    display: table;
+  }
+}
+
+.TxEntry{
+  display: table-row;
+  font-size: 13px;
+
+  &:hover{
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  > div {
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
+.Flag {
+  text-align: center;
+  width: 20px;
+}
+.Account {
+  text-align: center;
+  width: 24px;
+  img{
+    margin-bottom: -3px;
+    width: 16px;
+  }
+}
+
+.Date {
+  color: #afafaf;
+  padding-left: 5px;
+  vertical-align: bottom;
+  text-align: left;
+  width: 60px;
+}
+
+
+.Peer {
+  text-align: left;
+}
+
+.Price {
+  text-align: right;
+  width: 70px;
+}
+
+.Status {
+  text-align: center;
+  width: 24px;
+}

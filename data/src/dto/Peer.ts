@@ -8,6 +8,7 @@ export type PeerDto = DTO & {
   type: string
   hidden: boolean
   category?: CategoryDto
+  userProfileId: number
 }
 
 export interface PeerCtor {
@@ -17,6 +18,7 @@ export interface PeerCtor {
   hidden: boolean
   category?: Category
   categoryId?: number
+  userProfileId: number
 }
 
 export class Peer {
@@ -26,6 +28,7 @@ export class Peer {
   hidden: boolean
   category?: Category
   categoryId?: number
+  userProfileId: number
 
   constructor(ctor: PeerCtor) {
     this.id = ctor.id
@@ -34,6 +37,7 @@ export class Peer {
     this.hidden = ctor.hidden
     this.category = ctor.category
     this.categoryId = ctor.categoryId
+    this.userProfileId = ctor.userProfileId
   }
 
   toString(): string {

@@ -1,9 +1,9 @@
-import { SimpleDataAccessor } from "@damntools.fr/sqlite";
+import { CachedDataAccessor } from "@damntools.fr/sqlite";
 
 import { PeerDbo, PeerType } from "@damntools.fr/wnab-data";
 import { BooleanNumberMapper, EnumMapper } from "@damntools.fr/data";
 
-export class PeerRepository extends SimpleDataAccessor<number, PeerDbo> {
+export class PeerRepository extends CachedDataAccessor<number, PeerDbo> {
   static INSTANCE: PeerRepository | null = null;
 
   constructor() {

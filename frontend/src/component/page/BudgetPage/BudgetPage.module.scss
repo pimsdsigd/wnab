@@ -1,0 +1,236 @@
+.BudgetPage {
+
+  > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  > div > div:not(:last-child) {
+    padding: 15px 20px;
+    border-bottom: 1px solid #8f8f8f;
+    flex: 0 1;
+  }
+
+  > div > div:last-child {
+    flex: 1 0;
+    display: flex;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+}
+
+.Header {
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+}
+
+.MonthSelector {
+  flex: 0 1 220px;
+}
+
+.HeaderContent {
+  flex: 1 0;
+}
+
+.AgeOfMoney {
+  flex: 0 1;
+}
+
+.Content {
+  width: 100%;
+  overflow: hidden;
+
+  > div {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+}
+
+.LeftPanel {
+  flex: 1 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  overflow: auto;
+
+  > div {
+    padding: 0 10px;
+  }
+}
+
+.RightPanel {
+  flex: 0 1 33%;
+  background-color: rgba(255, 255, 255, 0.05);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    padding: 10px;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  h1 {
+    flex: 0 1;
+    font-size: 16px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.PanelInfo{
+  flex: 0 1;
+}
+.PanelActions{
+  flex: 0 1;
+}
+.PanelOther{
+  flex: 0 1;
+}
+.PanelTransactions{
+  flex: 1 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+
+.BudgetParentEntry {
+  width: 100%;
+}
+
+.BudgetParentEntry:not(:first-child) {
+  margin-top: 5px;
+}
+
+.ParentEntryBar {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 8px 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+
+  > div {
+    width: 100%;
+    display: table;
+    vertical-align: middle;
+
+    & > div {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+}
+
+.HiddenCategory {
+  background-image: repeating-linear-gradient(-45deg,
+          rgba(255, 255, 255, 0.1) 0 10px,
+          transparent 10px 20px);
+  background-color: transparent;
+}
+
+
+.ParentToggle {
+  margin-left: 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.ParentEntryBar > div > .Budgeted, .ParentEntryBar > div > .Activity, .ParentEntryBar > div > .Available {
+
+  & span {
+    background-color: transparent;
+  }
+}
+
+.BudgetChildEntry {
+  padding: 5px 10px;
+  margin: 3px 0;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  > div {
+    width: 100%;
+    display: table;
+    vertical-align: middle;
+
+    & > div {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+}
+
+.BudgetChildEntry:not(:last-child) {
+  border-bottom: 1px solid grey;
+}
+
+.Checkbox {
+  text-align: center;
+  width: 40px;
+}
+
+.Name {
+  //font-size: 14px;
+}
+
+.Checkbox > div {
+  vertical-align: middle;
+  margin-bottom: 3px;
+
+  & > div > div {
+    border-width: 2px;
+  }
+}
+
+.Budgeted, .Activity, .Available {
+  width: 150px;
+  text-align: right;
+  position: relative;
+
+  & > div {
+    display: flex;
+    flex-direction: row;
+    align-items: last;
+
+    > *:first-child {
+      flex: 1 1;
+    }
+
+    > *:last-child {
+    }
+  }
+}
+
+.BudgetedInput, .AvailableInput, .ActivityInput {
+  display: block;
+  font-size: 14px !important;
+  margin-left: 30px;
+
+  > div {
+    margin-top: 1px;
+  }
+
+  input {
+    width: 80%;
+  }
+}

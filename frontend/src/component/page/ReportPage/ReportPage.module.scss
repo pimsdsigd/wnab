@@ -1,0 +1,89 @@
+.ReportPage {
+
+  > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  > div > div:not(:last-child) {
+    padding: 15px 20px;
+    border-bottom: 1px solid #8f8f8f;
+    flex: 0 1;
+  }
+
+  > div > div:last-child {
+    padding: 20px;
+    flex: 1 0;
+    display: flex;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+}
+
+.ViewTypeLinks {
+  display: table;
+
+  > div {
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin: 2px 5px;
+    display: inline-block;
+    vertical-align: middle;
+    color: white;
+    filter: brightness(0.9);
+    box-shadow: 1px 1px 3px inset black;
+
+    &:hover {
+      filter: brightness(1);
+      cursor: pointer;
+    }
+  }
+
+
+  > div:first-child {
+    background-color: #90b421;
+  }
+
+  > div:nth-child(2) {
+    background-color: #c4a52d;
+  }
+
+  > div:nth-child(3) {
+    background-color: #d33731;
+  }
+
+  > div:nth-child(4) {
+    background-color: #b76423;
+  }
+
+  > div:nth-child(5) {
+    background-color: #2485af;
+  }
+
+  span {
+    vertical-align: middle;
+  }
+
+  img {
+    margin-left: 6px;
+    width: 14px;
+    vertical-align: middle;
+  }
+
+  span:first-child {
+  }
+}
+
+.SelectedView {
+  box-shadow: unset !important;
+  font-weight: bold;
+}
+
+.BalanceReportView{
+  flex: 1 0;
+}
