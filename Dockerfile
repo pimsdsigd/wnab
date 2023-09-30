@@ -13,4 +13,6 @@ WORKDIR /home/$USER
 COPY backend/dist .
 COPY frontend/build ./public
 
-CMD [ "node", "dist/server.js" ]
+RUN ls -la
+
+CMD [ "node", "server.js" ]

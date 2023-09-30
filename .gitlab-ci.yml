@@ -22,5 +22,3 @@ Build:
     - npm run build:frontend
     - npm ci
     - npm run build:backend
-    - cp frontend/build backend/public
-    - ls -la backend
