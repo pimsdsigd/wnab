@@ -5,6 +5,7 @@ include:
 
 variables:
   BUILD_PROJECT: 'yes'
+  PUSH_DOCKER: 'yes'
 
 Publish:
   needs:
