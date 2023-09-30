@@ -1,10 +1,4 @@
 import React from "react"
-import {
-  AccountConsumer,
-  CategoryConsumer,
-  PeerConsumer,
-  TransactionConsumer
-} from "../../../service"
 import styles from "./ReportPage.module.scss"
 import {
   png_chart_candle,
@@ -19,24 +13,6 @@ export type ReportPageViewType = "bar" | "line" | "pie" | "candle" | "balance"
 
 export class ReportPage extends React.Component<any, any> {
   render() {
-    return (
-      <TransactionConsumer>
-        {({}) => (
-          <AccountConsumer>
-            {({}) => (
-              <CategoryConsumer>
-                {({}) => (
-                  <PeerConsumer>{({}) => this.getContent()}</PeerConsumer>
-                )}
-              </CategoryConsumer>
-            )}
-          </AccountConsumer>
-        )}
-      </TransactionConsumer>
-    )
-  }
-
-  getContent() {
     const viewType = this.props.match?.params?.type as ReportPageViewType
     return (
       <div className={styles.ReportPage}>
