@@ -9,11 +9,16 @@ import {
   AuthenticatedDataController,
   EnhancedRequest,
   Http400Error,
+  withBodyParam,
   withURIParam,
 } from "@damntools.fr/express-utils";
 import { DateTime } from "luxon";
 import { toList } from "@damntools.fr/types";
 import { AuthenticationIdHook } from "~/service/CustomAuthenticationProvider";
+
+export type BudgetActionDto = {
+  ids: Array<number>;
+};
 
 export class BudgetController extends AuthenticatedDataController<
   number,
@@ -156,4 +161,5 @@ export class BudgetController extends AuthenticatedDataController<
       month,
     });
   }
+
 }

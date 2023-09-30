@@ -3,3 +3,6 @@ dist/
 db.sqlite
 export.budget.csv
 export.tx.csv
+*.current
+*.save
+public/

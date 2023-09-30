@@ -2,7 +2,11 @@ import React from "react"
 import styles from "./BudgetInfoTable.module.scss"
 import {Dict, List} from "@damntools.fr/types"
 import {PriceLabel} from "../PriceLabel"
-import {BudgetEntry, BudgetSelection, BudgetViewConsumer} from "../../../../service"
+import {
+  BudgetEntry,
+  BudgetSelection,
+  BudgetViewConsumer
+} from "../../../../service"
 
 export type BudgetInfoTableProps = {
   budgetSheet: Dict<number, BudgetEntry>
@@ -26,42 +30,42 @@ export class BudgetInfoTable extends React.Component<
                 <div>
                   <span>Left from month before</span>
                   <span>
-                  <PriceLabel
+                    <PriceLabel
                       withBackground={true}
                       value={lastMonth}
                       status={"default"}
-                  />
-                </span>
+                    />
+                  </span>
                 </div>
                 <div>
                   <span>Budgeted</span>
                   <span>
-                  <PriceLabel
+                    <PriceLabel
                       withBackground={true}
                       value={budgeted}
                       status={"default"}
-                  />
-                </span>
+                    />
+                  </span>
                 </div>
                 <div>
                   <span>Spending</span>
                   <span>
-                  <PriceLabel
+                    <PriceLabel
                       withBackground={true}
                       value={activity}
                       status={"default"}
-                  />
-                </span>
+                    />
+                  </span>
                 </div>
                 <div>
                   <span style={{fontWeight: "bold"}}>Available</span>
                   <span>
-                  <PriceLabel
+                    <PriceLabel
                       withBackground={true}
                       value={available}
                       status={"default"}
-                  />
-                </span>
+                    />
+                  </span>
                 </div>
               </div>
             </div>
@@ -100,7 +104,7 @@ export class BudgetInfoTable extends React.Component<
       .values()
       .stream()
       .filter(e => this.filter(e, selectedCategories))
-      .reduce((o, c) => o + (c.lastMonth?.budgeted || 0), 0)
+      .reduce((o, c) => o + (c.lastMonth?.budget.budgeted || 0) + (c.lastMonth?.budget.activity || 0), 0)
   }
 
   private filter(e: BudgetEntry, selectedCategories: List<BudgetSelection>) {

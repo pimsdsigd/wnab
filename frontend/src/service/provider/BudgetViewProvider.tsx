@@ -18,7 +18,8 @@ export type BudgetEntry = {
   pendingTransactions: List<Transaction>
   currentTransactions: List<Transaction>
   budget: Budget
-  lastMonth?: Budget
+  month: string
+  lastMonth?: BudgetEntry
   selected?: boolean
 }
 

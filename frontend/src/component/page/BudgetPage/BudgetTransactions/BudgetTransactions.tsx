@@ -52,12 +52,12 @@ export class BudgetTransactions extends React.Component<
       .filterPresent()
       .collect(toList)
     const currentTransactions = budgets.stream().reduce((a, e) => {
-      console.log(e.currentTransactions.size())
+      console.log("bt cur", e.currentTransactions.size())
       return e.currentTransactions.hasElements()
         ? a.concat(e.currentTransactions)
         : a
     }, new ArrayList<Transaction>())
-    console.log(currentTransactions.size())
+    console.log("bt full cur", currentTransactions.size())
     const pendingTransactions = budgets
       .stream()
       .reduce(
@@ -94,7 +94,7 @@ export class BudgetTransactions extends React.Component<
   private getTransactionEntry(tx: Transaction, pending: boolean) {
     return {
       element: (
-        <div
+        <div key={tx.id}
           className={CssClass.from(styles.TxEntry)
             .classIf(styles.Pending, pending)
             .get()}>

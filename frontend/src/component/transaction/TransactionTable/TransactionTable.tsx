@@ -62,7 +62,6 @@ export class TransactionTable extends React.Component<
   prepareState() {
     if (this.tableRef?.offsetHeight) {
       const amp = Math.floor((this.tableRef?.offsetHeight || 0) / 22.29)
-      console.log(this.tableRef?.offsetHeight, amp)
       this.setState({
         listAmplitude: amp,
         start: this.state.start,
@@ -97,11 +96,6 @@ export class TransactionTable extends React.Component<
                   filters
                 )
                 const sorted = TransactionSorter.sort(sort, filtered)
-                /*console.log(
-                                                                  `txs=${filtered.size()} start=${this.state.start} end=${
-                                                                    this.state.end
-                                                                  } amp=${this.state.listAmplitude}`
-                                                                )*/
                 if (sorted.isEmpty()) return <LoaderDiv />
                 return (
                   <div

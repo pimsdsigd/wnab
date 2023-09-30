@@ -107,7 +107,6 @@ export class TransactionEditView extends React.Component<
                 return (
                   <PeerConsumer>
                     {({peers}) => {
-                      console.log(accounts, subCategories, peers)
                       const peerValues = this.getPeerValues(peers)
                       const accountsValues = this.getAccountValues(accounts)
                       const categoryValues =
@@ -412,7 +411,6 @@ export class TransactionEditView extends React.Component<
   }
 
   private onSuccess(): void {
-    console.log(this.state)
     if (this.state.category.isEmpty()) {
       this.pushValidationNotification("Category should be set")
       return

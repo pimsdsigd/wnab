@@ -137,7 +137,8 @@ export class BudgetPage extends React.Component<any, BudgetPageState> {
                         </div>
                         <div className={styles.PanelActions}>
                           <h1>Actions</h1>
-                          <BudgetActions key={UUID.random()}/>
+                          <BudgetActions key={UUID.random()}
+                                         budgetSheet={budgetSheet}/>
                         </div>
                         <div className={styles.PanelOther}>
                           <h1>Other</h1>

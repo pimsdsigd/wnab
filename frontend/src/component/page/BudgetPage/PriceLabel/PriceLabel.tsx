@@ -23,8 +23,8 @@ export class PriceLabel extends React.Component<PriceLabelProps, any> {
         )
           .classIf(styles.WithBackground, this.props.withBackground)
           .classIf(styles.Clickable, !!this.props.onClick)
-          .classIf(styles.LabelPositive, value > 0)
-          .classIf(styles.LabelNegative, value < 0)
+          .classIf(styles.LabelPositive, value > 0.0001)
+          .classIf(styles.LabelNegative, value < -0.0001)
           .get()}>
         <span>{NumberUtils.formatNumber(value, 2)}</span>
         <span>€</span>

@@ -35,6 +35,17 @@
 .HeaderActions {
     flex: 0 1;
     text-align: right;
+
+    > span {
+        padding: 2px 5px;
+        border-radius: 3px;
+        background-color: rgba(161, 53, 20, 0.1);
+
+        &:hover{
+            cursor: pointer;
+            background-color: rgba(161, 53, 20, 0.5);
+        }
+    }
 }
 
 .MainPanel {

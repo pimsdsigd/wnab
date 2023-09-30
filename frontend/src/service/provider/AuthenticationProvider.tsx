@@ -16,6 +16,7 @@ export const AuthenticationConsumer = AuthenticationContext.Consumer
 export type AuthenticationProviderState = {
   authentication: Optionable<UserProfile>
   isAuthenticated: boolean
+  hasAuthenticationStored: boolean
   logout: () => void
 }
 
@@ -28,6 +29,7 @@ export class AuthenticationProvider extends React.Component<
   state: AuthenticationProviderState = {
     authentication: Optional.empty(),
     isAuthenticated: false,
+    hasAuthenticationStored: false,
     logout: () => {
       LocalStorageManager.removeAuthentication().then(() =>
         window.location.reload()
@@ -45,7 +47,15 @@ export class AuthenticationProvider extends React.Component<
   }
 
   prepareData() {
-    LocalStorageManager.isAuthenticated()
+    LocalStorageManager.hasAuthentication()
+      .then(yes => {
+        return new Promise(resolve =>
+          this.setState({hasAuthenticationStored: yes}, () => {
+            resolve("")
+          })
+        )
+      })
+      .then(() => LocalStorageManager.isAuthenticated())
       .then(authenticated => {
         if (!authenticated) throw Error()
         return this.retrieveUser().then(user => {

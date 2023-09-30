@@ -28,8 +28,8 @@
     "@damntools.fr/ts-lib": "^5.0.0"
   },
   "dependencies": {
-    "@damntools.fr/types": "^4.2.3",
-    "@damntools.fr/data": "^1.2.1",
+    "@damntools.fr/types": "^4.2.7",
+    "@damntools.fr/data": "^1.2.3",
     "@damntools.fr/utils-simple": "^5.2.0",
     "@types/luxon": "^3.3.2",
     "luxon": "^3.4.2"

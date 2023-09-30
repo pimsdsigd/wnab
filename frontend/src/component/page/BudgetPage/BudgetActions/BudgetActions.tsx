@@ -1,9 +1,18 @@
 import React from "react"
-import {BudgetSelection, BudgetViewConsumer} from "../../../../service"
-import {List, toList} from "@damntools.fr/types"
+import {
+  BudgetApiService,
+  BudgetEntry,
+  BudgetProvider,
+  BudgetSelection,
+  BudgetViewConsumer
+} from "../../../../service"
+import {Dict, List, toList} from "@damntools.fr/types"
 import styles from "./BudgetActions.module.scss"
+import {AlertProvider, Notification} from "@damntools.fr/react-alert"
 
-export type BudgetAssignFormProps = {}
+export type BudgetAssignFormProps = {
+  budgetSheet: Dict<number, BudgetEntry>
+}
 
 export class BudgetActions extends React.Component<BudgetAssignFormProps, any> {
   render() {
@@ -26,8 +35,16 @@ export class BudgetActions extends React.Component<BudgetAssignFormProps, any> {
       <div className={styles.BudgetActions}>
         <div>{this.getAssignFromLastMonth(selectedCategories)}</div>
         <div>{this.getAssignFromLastMonthActivity(selectedCategories)}</div>
-        <div className={styles.Warning}>{this.getReset(selectedCategories)}</div>
-        <div className={styles.Warning}>{this.getSendAvailableToInflux(selectedCategories)}</div>
+        <div
+          onClick={() => this.onClickAssignFromAvailable(selectedCategories)}>
+          {this.getAssignBudgetFromAvailable(selectedCategories)}
+        </div>
+        <div className={styles.Warning}>
+          {this.getReset(selectedCategories)}
+        </div>
+        <div className={styles.Warning}>
+          {this.getSendAvailableToInflux(selectedCategories)}
+        </div>
       </div>
     )
   }
@@ -40,7 +57,19 @@ export class BudgetActions extends React.Component<BudgetAssignFormProps, any> {
     else return "Assign last month budget for category"
   }
 
-  private getAssignFromLastMonthActivity(selectedCategories: List<BudgetSelection>) {
+  private getAssignBudgetFromAvailable(
+    selectedCategories: List<BudgetSelection>
+  ) {
+    if (selectedCategories.isEmpty())
+      return "Fix budget from available amount for all categories"
+    else if (selectedCategories.size() > 1)
+      return "Fix budget from available amount for each category"
+    else return "Fix budget from available amount for category"
+  }
+
+  private getAssignFromLastMonthActivity(
+    selectedCategories: List<BudgetSelection>
+  ) {
     if (selectedCategories.isEmpty())
       return "Assign last month spending as budget for all categories"
     else if (selectedCategories.size() > 1)
@@ -53,8 +82,7 @@ export class BudgetActions extends React.Component<BudgetAssignFormProps, any> {
       return "Reset all categories budget to 0.00"
     else if (selectedCategories.size() > 1)
       return "Reset each category budget to 0.00"
-    else
-      return "Reset category budget to 0.00"
+    else return "Reset category budget to 0.00"
   }
 
   private getSendAvailableToInflux(selectedCategories: List<BudgetSelection>) {
@@ -62,7 +90,28 @@ export class BudgetActions extends React.Component<BudgetAssignFormProps, any> {
       return "Send available from all categories to influx"
     else if (selectedCategories.size() > 1)
       return "Send available from each category to influx"
-    else
-      return "Send available from category to influx"
+    else return "Send available from category to influx"
+  }
+
+  private onClickAssignFromAvailable(
+    selectedCategories: List<BudgetSelection>
+  ) {
+    if (selectedCategories.isEmpty()) {
+      const promises = this.props.budgetSheet
+        .values()
+        .stream()
+        .map(e => {
+          e.budget.budgeted = e.budget.budgeted - e.budget.available
+          return e.budget
+        })
+        .map(b => BudgetApiService.get().update(b))
+        .collectArray()
+      Promise.all(promises)
+        .then(() => BudgetProvider.refresh())
+        .then(() =>
+          AlertProvider.submitNotification(Notification.info("All categories updated"))
+        )
+        .catch(err => console.debug("Month already exists", err))
+    }
   }
 }

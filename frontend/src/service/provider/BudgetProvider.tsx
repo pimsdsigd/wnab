@@ -76,36 +76,73 @@ export class BudgetProvider extends React.Component<any, BudgetProviderState> {
         b => b.month.toMillis() >= rangeStart && b.month.toMillis() < rangeEnd
       )
       .collect(toList)
+    return this.getSheetForBudgets(
+      monthBudgets,
+      transactions,
+      rangeStart,
+      rangeEnd,
+      tomorrow
+    )
+  }
+
+  private getSheetForBudgets(
+    monthBudgets: List<Budget>,
+    transactions: List<Transaction>,
+    rangeStart: number,
+    rangeEnd: number,
+    tomorrow: number
+  ) {
     const budgetSheet = KV.empty<number, BudgetEntry>()
-    monthBudgets.forEach((b: Budget, i: number, v: Budget[]) => {
-      const txs = transactions
-        .stream()
-        .filter(
-          tx =>
-            tx.categoryId === b.categoryId &&
-            tx.date.toMillis() >= rangeStart &&
-            tx.date.toMillis() < rangeEnd
-        )
-        .collect(toList)
-      const pending = txs
-        .stream()
-        .filter(tx => tx.date.toMillis() >= tomorrow)
-        .collect(toList)
-      const current = txs
-        .stream()
-        .filter(tx => tx.date.toMillis() < tomorrow)
-        .collect(toList)
-      b.activity = current.stream().reduce((o, c) => o + c.cashFlow, 0)
-      b.available = b.budgeted + b.activity
-      budgetSheet.put(b.categoryId as number, {
-        lastMonth: i > 0 ? v[i - 1] : undefined,
-        budget: b,
-        transactions: txs,
-        pendingTransactions: pending,
-        currentTransactions: current
-      })
+    monthBudgets.forEach((b: Budget) => {
+      const processed = this.processBudget(
+        transactions,
+        b,
+        rangeStart,
+        rangeEnd,
+        tomorrow
+      )
+      budgetSheet.put(b.categoryId as number, processed)
     })
     return budgetSheet
+  }
+
+  private processBudget(
+    transactions: List<Transaction>,
+    budget: Budget,
+    rangeStart: number,
+    rangeEnd: number,
+    tomorrow: number
+  ): BudgetEntry {
+    const txs = transactions
+      .stream()
+      .filter(
+        tx =>
+          tx.categoryId === budget.categoryId &&
+          tx.date.toMillis() >= rangeStart &&
+          tx.date.toMillis() < rangeEnd
+      )
+      .collect(toList)
+    const pending = txs
+      .stream()
+      .filter(
+        tx => tx.date.toMillis() >= tomorrow && tx.date.toMillis() < rangeEnd
+      )
+      .collect(toList)
+    const current = txs
+      .stream()
+      .filter(tx => tx.date.toMillis() < tomorrow)
+      .collect(toList)
+    const lastMonth = this.getLastMonthBudget(budget, transactions)
+    budget.activity = current.stream().reduce((o, c) => o + c.cashFlow, 0)
+    budget.available = budget.budgeted + budget.activity
+    return {
+      month: budget.month.toFormat("yyyy-MM"),
+      lastMonth,
+      budget: budget,
+      transactions: txs,
+      pendingTransactions: pending,
+      currentTransactions: current
+    }
   }
 
   render() {
@@ -114,5 +151,32 @@ export class BudgetProvider extends React.Component<any, BudgetProviderState> {
         {this.props.children}
       </BudgetContext.Provider>
     )
+  }
+
+  private getLastMonthBudget(
+    budget: Budget,
+    transactions: List<Transaction>
+  ): BudgetEntry | undefined {
+    const next = budget.month.set({
+      hour: 0,
+      minute: 0,
+      second: 0,
+      millisecond: 0
+    })
+    const last = next.minus({month: 1})
+    const rangeStart = last.toMillis()
+    const rangeEnd = next.toMillis()
+    return this.state.budgets
+      .stream()
+      .findFirst(
+        b =>
+          b.month.toMillis() >= rangeStart &&
+          b.month.toMillis() < rangeEnd &&
+          b.categoryId === budget.categoryId
+      )
+      .map(b =>
+        this.processBudget(transactions, b, rangeStart, rangeEnd, rangeEnd)
+      )
+      .orElseUndefined()
   }
 }

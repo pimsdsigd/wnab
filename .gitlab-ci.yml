@@ -1,0 +1,25 @@
+include:
+  - project: 'cicd/gitlab-templates'
+    ref: main
+    file: 'node.gitlab-ci.template.yml'
+
+variables:
+  BUILD_PROJECT: 'yes'
+
+Publish:
+  needs:
+    - Build
+  dependencies:
+    - Build
+
+
+Build:
+  script:
+    - npm ci
+    - npm run build:data
+    - npm ci
+    - npm run build:frontend
+    - npm ci
+    - npm run build:backend
+    - cp frontend/build backend/public
+    - ls -la backend

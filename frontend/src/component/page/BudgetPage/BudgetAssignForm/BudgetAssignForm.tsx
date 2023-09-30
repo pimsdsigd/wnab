@@ -1,6 +1,12 @@
 import React from "react"
 import styles from "./BudgetAssignForm.module.scss"
-import {AssignFormParam, BudgetEntry, BudgetViewConsumer, CategoryConsumer, FormType} from "../../../../service"
+import {
+  AssignFormParam,
+  BudgetEntry,
+  BudgetViewConsumer,
+  CategoryConsumer,
+  FormType
+} from "../../../../service"
 import {
   DropDownSelector,
   SimpleCalculatorInput,
@@ -9,10 +15,26 @@ import {
 } from "@damntools.fr/react-inputs"
 import {List, Optionable, Optional, toList} from "@damntools.fr/types"
 import {Category} from "@damntools.fr/wnab-data"
+import {StringUtils} from "@damntools.fr/utils-simple"
 
 export type BudgetAssignFormProps = {}
+export type BudgetAssignFormState = {
+  category: Optionable<Category>
+  amount: Optionable<number>
+}
 
-export class BudgetAssignForm extends React.Component<BudgetAssignFormProps, any> {
+export class BudgetAssignForm extends React.Component<
+  BudgetAssignFormProps,
+  BudgetAssignFormState
+> {
+  constructor(props: Readonly<BudgetAssignFormProps> | BudgetAssignFormProps) {
+    super(props)
+    this.state = {
+      amount: Optional.empty(),
+      category: Optional.empty()
+    }
+  }
+
   render() {
     return (
       <CategoryConsumer>
@@ -22,12 +44,24 @@ export class BudgetAssignForm extends React.Component<BudgetAssignFormProps, any
               if (assignFormParam.isEmpty()) return null
               const param = assignFormParam.get()
               const categories = this.getCategoriesValues(subCategories)
-              const selectedCategory = categories
-                .stream()
-                .filter(
-                  vd => param.budget.budget.categoryId === vd.returnValue.id
-                )
-                .collect(toList)
+              const selectedCategory = this.state.category.isPresent()
+                ? categories
+                    .stream()
+                    .log("", e => e.returnValue.name)
+                    .filter(
+                      vd => vd.returnValue.id === this.state.category.get().id
+                    )
+                    .collect(toList)
+                : categories
+                    .stream()
+                    .log("", e => e.returnValue.name)
+                    .filter(vd =>
+                      StringUtils.equalsIgnoreCase(
+                        "Ready to assign",
+                        vd.returnValue.name
+                      )
+                    )
+                    .collect(toList)
               const value = param.budget.budget[param.type]
               return (
                 <div className={styles.BudgetAssignForm}>
@@ -55,7 +89,9 @@ export class BudgetAssignForm extends React.Component<BudgetAssignFormProps, any
                       <div className={styles.AssignFormAmount}>
                         <SimpleCalculatorInput
                           precision={2}
-                          value={Optional.nullable(value).map(VD)}
+                          value={this.state.amount
+                            .map(VD)
+                            .mapEmpty(() => VD(value))}
                           dark
                           rightAlign
                           focus
@@ -66,7 +102,12 @@ export class BudgetAssignForm extends React.Component<BudgetAssignFormProps, any
                       </div>
                       <div className={styles.AssignFormButtons}>
                         <div>
-                          <span>Send</span>
+                          <span
+                            onClick={() =>
+                              this.onValidate(assignForm, assignFormParam)
+                            }>
+                            Send
+                          </span>
                           <div></div>
                           <span
                             onClick={() =>
@@ -87,8 +128,8 @@ export class BudgetAssignForm extends React.Component<BudgetAssignFormProps, any
     )
   }
 
-  private onChangeCategory(v: Optionable<ValueDesc<Category>>) {
-    console.log(v)
+  private onChangeCategory(value: Optionable<ValueDesc<Category>>) {
+    this.setState({category: value.map(v => v.returnValue)})
   }
 
   private getCategoriesValues(categories: List<Category>) {
@@ -99,8 +140,8 @@ export class BudgetAssignForm extends React.Component<BudgetAssignFormProps, any
       .collect(toList)
   }
 
-  private onChangeAmount(v: Optionable<number>) {
-    console.log(v)
+  private onChangeAmount(value: Optionable<number>) {
+    this.setState({amount: value})
   }
 
   private onClear(
@@ -108,6 +149,18 @@ export class BudgetAssignForm extends React.Component<BudgetAssignFormProps, any
     assignFormParam: Optionable<AssignFormParam>
   ) {
     assignFormParam.ifPresentDo(p => {
+      assignForm(p.budget, p.type)
+    })
+  }
+
+  private onValidate(
+    assignForm: (budget: BudgetEntry, type: FormType) => void,
+    assignFormParam: Optionable<AssignFormParam>
+  ) {
+    assignFormParam.ifPresentDo(p => {
+      if(p.type === "available"){
+      }
+
       assignForm(p.budget, p.type)
     })
   }

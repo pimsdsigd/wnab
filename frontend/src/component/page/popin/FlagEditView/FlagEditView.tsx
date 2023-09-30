@@ -144,7 +144,6 @@ export class FlagEditView extends React.Component<
 
   private onSuccess() {
     let errored = false
-    console.log(this.state)
     if (this.state.color.isEmpty()) {
       AlertProvider.submitNotification(
         Notification.error("Validation issue").Subtitle("Color should be set")

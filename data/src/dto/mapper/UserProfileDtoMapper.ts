@@ -1,4 +1,4 @@
-import {ArrayListMapper, DtoMapper} from "@damntools.fr/data"
+import {ArrayListMapper, DtoMapper, reverseMapper} from "@damntools.fr/data"
 import {UserProfile, UserProfileDto} from "../UserProfile"
 
 export class UserProfileDtoMapper extends DtoMapper<UserProfile, UserProfileDto> {
@@ -6,7 +6,7 @@ export class UserProfileDtoMapper extends DtoMapper<UserProfile, UserProfileDto>
 
   constructor() {
     super(UserProfile)
-    this.addMapping({from: "roles", mapper: new ArrayListMapper()})
+    this.addMapping({from: "roles", mapper: reverseMapper(new ArrayListMapper())})
   }
 
   static get(): UserProfileDtoMapper {

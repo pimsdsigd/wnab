@@ -70,16 +70,17 @@ export class BudgetChildEntry extends React.Component<
                   {this.state.showBudgetedInput ? (
                     <div className={styles.BudgetedInput}>
                       <SimpleCalculatorInput
-                        onEnterKey={() => this.onClickBudgeted()}
+                        onEnterKey={v => this.onChangeBudgeted(v)}
                         onBlur={() => this.onClickBudgeted()}
                         precision={2}
                         value={Optional.nullable(budget?.budgeted).map(VD)}
                         dark
                         rightAlign
                         focus
+                        required={false}
                         unit={"€"}
                         hideFormat
-                        onChange={v => this.onChangeBudgeted(v)}
+                        onChange={() => []}
                       />
                     </div>
                   ) : (
@@ -152,8 +153,8 @@ export class BudgetChildEntry extends React.Component<
     BudgetApiService.get()
       .update(this.props.budget.budget)
       .then(() => BudgetProvider.refresh())
+      .then(() => this.onClickBudgeted())
       .catch(err => {
-        console.error("err", err)
         AlertProvider.submitNotification(
           Notification.error(
             "Could not update budget activity value !"

@@ -83,7 +83,7 @@ export class TransactionDataService extends AbstractDataService<
     return super.insert(data)
   }
 
-  insertAll(data: List<Transaction>): Promise<List<number>> {
+  insertAll(data: List<Transaction>): Promise<List<Transaction>> {
     return super.insertAll(data)
   }
 

@@ -26,7 +26,9 @@ export class App extends React.Component {
       <HashRouter>
         <AuthenticationProvider>
           <AuthenticationConsumer>
-            {({isAuthenticated, logout}) => {
+            {({isAuthenticated, hasAuthenticationStored, logout}) => {
+              if (!isAuthenticated && hasAuthenticationStored)
+                return <LoaderDiv />
               return isAuthenticated ? (
                 <div className={styles.HomeMainFrame}>
                   <div className={styles.MainAppBlock}>

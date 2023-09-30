@@ -139,7 +139,6 @@ export class PeerEditView extends React.Component<
 
   private onSuccess() {
     let errored = false
-    console.log(this.state)
     if (this.state.type.isEmpty()) {
       AlertProvider.submitNotification(
         Notification.error("Validation issue").Subtitle("Type should be set")

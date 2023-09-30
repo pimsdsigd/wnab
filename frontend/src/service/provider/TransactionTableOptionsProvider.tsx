@@ -73,7 +73,6 @@ export class TransactionTableOptionsProvider extends React.Component<
     },
     setSelected: (reset: boolean, tx: Transaction): void => {
       const index = this.state.selected.stream().findIndex(s => s === tx.id)
-      console.log(reset, this.state.selected.getInner())
       if (reset && index === -1) {
         this.setState({selected: new ArrayList([tx.id as number])})
       } else if (reset) {
@@ -104,7 +103,6 @@ export class TransactionTableOptionsProvider extends React.Component<
     sort: Optional.of({field: "date", direction: "asc"}),
     filters: KV.empty(),
     setFilter: (field: keyof Transaction, value: FilterValue) => {
-      console.log(field, value)
       if (this.state.filters.hasKey(field)) {
         const values = this.state.filters.get(field)
         const index = values.stream().findIndex(v => v.value === value.value)
@@ -120,8 +118,7 @@ export class TransactionTableOptionsProvider extends React.Component<
         this.setState(
           {
             filters: this.state.filters.put(field, new ArrayList([value]))
-          },
-          () => console.log(this.state)
+          }
         )
       }
     },
