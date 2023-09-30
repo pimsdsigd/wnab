@@ -193,7 +193,7 @@ export class CategoryEditView extends React.Component<
     }
     if (!errored) {
       const category = new Category({
-        userProfileId: 0, //TODO
+        userProfileId: 0,
         hidden: this.state.hidden.orElseReturn(false),
         name: this.state.name.get(),
         parentCategory: this.state.parent.orElseUndefined()

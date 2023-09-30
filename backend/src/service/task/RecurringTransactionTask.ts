@@ -85,7 +85,6 @@ export class RecurringTransactionTask {
       status: tx.status,
     });
     const txs = new ArrayList<Transaction>();
-    const nextStr = nextDate.toISODate();
     if (nextMonth.toMillis() - nextDate.toMillis() > 0) {
       txs.push(newTx);
       const propagated = this.processTransaction(newTx);

@@ -62,7 +62,7 @@ export class UserProfileController extends AuthenticatedDataController<
       .then(() => withURIParam(r, "id"))
       .then(() => this.mapper().mapTo(r.body))
       .then((body: any) => {
-        if (!containsProperty(body as any, "id"))
+        if (!containsProperty(body, "id"))
           throw new Http400Error("Id should be provided");
         if (body["id"] !== authenticatedId)
           throw new Http403Error(

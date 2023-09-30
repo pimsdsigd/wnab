@@ -7,7 +7,6 @@ import {
   UserProfileDboMapper,
 } from "@damntools.fr/wnab-data";
 import {
-  AuthenticatedAuthentication,
   AuthenticationRole,
   AuthUser,
   UserManagerService,
@@ -18,7 +17,6 @@ import { eq, or } from "@damntools.fr/sqlite";
 export type DbAuthUser = AuthUser & {
   id: number;
 };
-
 
 export class UserProfileDataService
   extends AbstractDataService<UserProfile, UserProfileDbo>

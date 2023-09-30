@@ -158,7 +158,7 @@ export class FlagEditView extends React.Component<
     }
     if (!errored) {
       const flag = new TransactionFlag({
-        userProfileId: 0, //TODO
+        userProfileId: 0,
         hidden: this.state.hidden.orElseReturn(false),
         name: this.state.name.get(),
         color: this.state.color.get()

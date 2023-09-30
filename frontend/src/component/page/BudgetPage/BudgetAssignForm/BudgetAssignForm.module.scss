@@ -1,4 +1,4 @@
-.BudgetAssignForm{
+.BudgetAssignForm {
   width: 100%;
 
   & > div {
@@ -12,7 +12,7 @@
     background-color: rgba(255, 255, 255, 0.1);
   }
 
-  & > div > div> div {
+  & > div > div > div {
     margin-bottom: 10px;
   }
 
@@ -31,14 +31,14 @@
     border-radius: 5px;
     padding: 5px 10px;
 
-    &:hover{
+    &:hover {
       cursor: pointer;
       filter: brightness(1.2);
     }
   }
 
   span:first-child {
-    background-color:rgba(144, 180, 33, 0.5);;
+    background-color: rgba(144, 180, 33, 0.5);
   }
 
   span:last-child {

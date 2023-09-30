@@ -43,7 +43,7 @@ export class PeerProvider extends React.Component<any, PeerProviderState> {
       .then(
         accounts =>
           new Promise<List<Peer>>(resolve =>
-            this.setState({peers: accounts as List<Peer>}, () =>
+            this.setState({peers: accounts}, () =>
               resolve(accounts)
             )
           )

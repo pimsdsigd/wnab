@@ -53,12 +53,6 @@ export class AgeOfMoneyService {
             .stream()
             .reduce((oo, cc) => oo + days.get(cc), 0);
           const currentDay = days.get(c);
-          /*console.log(
-            `D=${String(i).padStart(
-              4,
-              "0",
-            )} : ${c} AGE=${o} DAY=${currentDay} ACC=${sub} (${inflowStartIndex}/${inflowEndIndex}/${subArray.size()})`,
-          );*/
           return sub + currentDay > 0 ? o + 1 : 0;
         }
         return days.get(c) > 0 ? o + 1 : o;

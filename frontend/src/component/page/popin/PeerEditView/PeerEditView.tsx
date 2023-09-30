@@ -153,7 +153,7 @@ export class PeerEditView extends React.Component<
     }
     if (!errored) {
       const peer = new Peer({
-        userProfileId: 0, //TODO
+        userProfileId: 0,
         hidden: this.state.hidden.orElseReturn(false),
         name: this.state.name.get(),
         type: this.state.type.get()

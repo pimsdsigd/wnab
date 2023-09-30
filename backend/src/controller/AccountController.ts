@@ -1,6 +1,5 @@
 import {
   AuthenticatedDataController,
-  DataController,
   switch404,
   withBody,
   withURIParam,
@@ -20,7 +19,7 @@ import {
 import { Request } from "express";
 import { DateTime } from "luxon";
 import { toList } from "@damntools.fr/types";
-import {AuthenticationIdHook} from "~/service/CustomAuthenticationProvider";
+import { AuthenticationIdHook } from "~/service/CustomAuthenticationProvider";
 
 export const filterTodayAndBefore =
   (t: DateTime) =>
@@ -37,10 +36,15 @@ export class AccountController extends AuthenticatedDataController<
   AccountDto
 > {
   constructor() {
-    super("/account", AccountDataService.get(), AccountDtoMapper.get(),
-        "userProfileId",
-        AuthenticationIdHook, true);
-    this.builder = this.builder.authenticated()
+    super(
+      "/account",
+      AccountDataService.get(),
+      AccountDtoMapper.get(),
+      "userProfileId",
+      AuthenticationIdHook,
+      true,
+    );
+    this.builder = this.builder.authenticated();
   }
 
   setRoutes() {
@@ -92,7 +96,11 @@ export class AccountController extends AuthenticatedDataController<
       .then((id) => this.idMapper().mapFrom(id))
       .then((accountId) =>
         withBody<ReconcileBodyDto>(r).then((body) =>
-          this.service<AccountDataService>().reconcile(accountId, body.amount, 1),
+          this.service<AccountDataService>().reconcile(
+            accountId,
+            body.amount,
+            1,
+          ),
         ),
       );
   }
@@ -152,7 +160,7 @@ export class AccountController extends AuthenticatedDataController<
         .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
         .plus({ day: 1 });
       return AccountDataService.get()
-        .getById(parseInt(id as string))
+        .getById(parseInt(id))
         .then(switch404)
         .then((account) =>
           TransactionDataService.get()

@@ -19,12 +19,10 @@
 }
 
 .Calendar {
-  & {
-    background-color: #1C1E1F;
-    color: rgb(206, 206, 206) !important;
-    border: 1px solid white;
-    border-radius: 0;
-  }
+  background-color: #1C1E1F;
+  color: rgb(206, 206, 206) !important;
+  border: 1px solid white;
+  border-radius: 0;
 
   > div:first-child {
     background-color: #171717;
@@ -33,6 +31,7 @@
   > div:first-child::before {
     border-bottom-color: #808080 !important;
   }
+
   > div:first-child::after {
     border-bottom-color: #808080 !important;
   }
@@ -59,12 +58,12 @@
     color: rgb(206, 206, 206) !important;
   }
 
-  > div:last-child > div:last-child div{
+  > div:last-child > div:last-child div {
     color: rgb(206, 206, 206) !important;
   }
 
 
-  > div:last-child > div:last-child div:hover{
+  > div:last-child > div:last-child div:hover {
     color: #1C1E1F !important;
   }
 

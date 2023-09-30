@@ -50,9 +50,7 @@ export class BudgetProvider extends React.Component<any, BudgetProviderState> {
       .then(
         budgets =>
           new Promise<List<Budget>>(resolve =>
-            this.setState({budgets: budgets as List<Budget>}, () =>
-              resolve(budgets)
-            )
+            this.setState({budgets: budgets}, () => resolve(budgets))
           )
       )
   }

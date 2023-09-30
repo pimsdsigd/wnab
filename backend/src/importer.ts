@@ -24,7 +24,6 @@ import {
     TransactionDataService,
 } from "~/service";
 
-// process.env["CLEAN_AT_EXIT"] = "true";
 
 export type LoadedTx = {
   cashFlow: number;

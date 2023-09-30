@@ -10,9 +10,9 @@ USER $USER
 
 WORKDIR /home/$USER
 
-COPY backend/dist .
-COPY frontend/build ./public
+COPY --chown=$USER:$USER . .
 
-RUN ls -la
+RUN npm ci 
+WORKDIR /home/$USER/backend/
 
-CMD [ "node", "server.js" ]
+CMD [ "ts-node", "src/server.ts" ]

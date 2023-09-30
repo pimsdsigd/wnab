@@ -59,7 +59,7 @@
   padding: 10px 0;
 
   > div {
-    background-color: rgba(144, 180, 33, 0.5);;
+    background-color: rgba(144, 180, 33, 0.5);
     padding: 10px 20px;
     font-size: 18px;
     border-radius: 0;
@@ -69,7 +69,7 @@
       cursor: pointer;
       border-radius: 10px;
       transition: 100ms ease all;
-      background-color: rgba(144, 180, 33, 0.7);;
+      background-color: rgba(144, 180, 33, 0.7);
     }
   }
 }
@@ -85,13 +85,13 @@
 
   > div > div {
     padding: 5px 10px;
-    background-color: rgba(144, 180, 33, 0.1);;
+    background-color: rgba(144, 180, 33, 0.1);
     transition: 100ms ease all;
 
     &:hover{
       cursor: pointer;
       transition: 100ms ease all;
-      background-color: rgba(144, 180, 33, 0.3);;
+      background-color: rgba(144, 180, 33, 0.3);
     }
   }
 }

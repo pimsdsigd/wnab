@@ -9,10 +9,10 @@
   "scripts": {
     "test": "echo 0 && exit 0",
     "test:coverage:report": "echo 0 && exit 0",
-    "build": "npm run build:data && npm ci && npm run build:frontend && npm ci && npm run build:backend",
+    "build": "npm run build:frontend && npm run build:backend",
     "build:data": "cd data && npm run build && cd ..",
-    "build:frontend": "cd frontend && npm run build && cd ..",
-    "build:backend": "cd backend && npm run build && cd .."
+    "build:frontend": "npm run build:data && npm ci && cd frontend && npm run build && cd ..",
+    "build:backend": "npm run build:data && npm ci && cd backend && npm run build && cd .."
   },
   "devDependencies": {
     "sonarqube-scanner": "^3.0.1"

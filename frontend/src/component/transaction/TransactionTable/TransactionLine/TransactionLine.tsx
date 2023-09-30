@@ -99,7 +99,7 @@ export class TransactionLine extends React.Component<
     )
   }
 
-  private getFlag(flag?: TransactionFlag): JSX.Element {
+  private getFlag(flag?: TransactionFlag): React.JSX.Element {
     return (
       <div className={styles.Flag}>
         <span

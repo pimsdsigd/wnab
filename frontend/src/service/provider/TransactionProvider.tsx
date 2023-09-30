@@ -51,7 +51,7 @@ export class TransactionProvider extends React.Component<
     transactions: Lists.empty(),
     flags: Lists.empty(),
     refresh: () => {
-      void this.prepareData()
+      this.prepareData()
     }
   }
 

@@ -22,7 +22,7 @@ export class CategoryView extends React.Component<any, any> {
                   <div className={styles.Add}>
                     <div
                       onClick={() =>
-                        openCategoryViewPopup(undefined, undefined)
+                        openCategoryViewPopup(undefined)
                       }>
                       <span></span>
                       <img src={png_add_account} alt={"add"} title={"add"} />

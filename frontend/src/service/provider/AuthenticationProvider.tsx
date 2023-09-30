@@ -43,7 +43,7 @@ export class AuthenticationProvider extends React.Component<
   }
 
   componentDidMount() {
-    void this.prepareData()
+    this.prepareData()
   }
 
   prepareData() {

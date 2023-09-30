@@ -31,7 +31,7 @@ export class BalanceReportView extends React.Component<any, any> {
             .entries()
             .sortWith("key")
             .forEach((e: DictObjectEntry<number, number>, i: number) => {
-              if ((i as number) > 0) {
+              if (i > 0) {
                 const value = e.value + previous
                 previous = value
                 reduced.put(e.key, value)

@@ -10,12 +10,10 @@ USER $USER
 
 WORKDIR /home/$USER
 
-COPY package*.json ./
+COPY --chown=$USER:$USER . .
 
-RUN whoami && npm ci
+RUN npm ci && npm run build:frontend  && rm -rf node_modules
 
-COPY . .
-
-RUN npm run build  && rm -rf node_modules
+WORKDIR /home/$USER/frontend/
 
 CMD [ "serve", "-s", "build" ]

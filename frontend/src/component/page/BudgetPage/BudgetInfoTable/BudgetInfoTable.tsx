@@ -104,23 +104,24 @@ export class BudgetInfoTable extends React.Component<
       .values()
       .stream()
       .filter(e => this.filter(e, selectedCategories))
-      .reduce((o, c) => o + (c.lastMonth?.budget.budgeted || 0) + (c.lastMonth?.budget.activity || 0), 0)
+      .reduce(
+        (o, c) =>
+          o +
+          (c.lastMonth?.budget.budgeted || 0) +
+          (c.lastMonth?.budget.activity || 0),
+        0
+      )
   }
 
   private filter(e: BudgetEntry, selectedCategories: List<BudgetSelection>) {
-    if (
+    return (
       selectedCategories
         .stream()
         .filter(s => s.selected)
-        .count() === 0
-    )
-      return true
-    else if (
+        .count() === 0 ||
       selectedCategories
         .stream()
         .some(s => s.categoryId === e.budget.categoryId && s.selected)
     )
-      return true
-    return false
   }
 }

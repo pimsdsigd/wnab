@@ -9,7 +9,6 @@ import {
   AuthenticatedDataController,
   EnhancedRequest,
   Http400Error,
-  withBodyParam,
   withURIParam,
 } from "@damntools.fr/express-utils";
 import { DateTime } from "luxon";
@@ -161,5 +160,4 @@ export class BudgetController extends AuthenticatedDataController<
       month,
     });
   }
-
 }

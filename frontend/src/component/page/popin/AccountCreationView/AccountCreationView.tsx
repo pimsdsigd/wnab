@@ -173,7 +173,7 @@ export class AccountCreationView extends React.Component<
     }
     if (!errored) {
       const account = new Account({
-        userProfileId: 0, //TODO
+        userProfileId: 0,
         closed: this.state.closed.orElseReturn(false),
         name: this.state.name.get(),
         type: this.state.type.get()

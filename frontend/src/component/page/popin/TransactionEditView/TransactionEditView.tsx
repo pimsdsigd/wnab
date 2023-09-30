@@ -401,7 +401,7 @@ export class TransactionEditView extends React.Component<
       peer: value.map(
         v =>
           new Peer({
-            userProfileId: 0, //TODO
+            userProfileId: 0,
             hidden: false,
             name: v,
             type: PeerType.PERSON
@@ -436,7 +436,7 @@ export class TransactionEditView extends React.Component<
       return
     }
     const tx = new Transaction({
-      userProfileId: 0, //TODO
+      userProfileId: 0,
       account: this.state.account.get(),
       cashFlow: this.state.cashFlow.get(),
       category: this.state.category.get(),

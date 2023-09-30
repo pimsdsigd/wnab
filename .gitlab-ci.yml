@@ -5,7 +5,6 @@ include:
 
 variables:
   BUILD_PROJECT: 'yes'
-  PUSH_DOCKER: 'yes'
 
 Publish:
   needs:
@@ -13,12 +12,49 @@ Publish:
   dependencies:
     - Build
 
-
-Build:
+Docker:backend:
+  stage: publish
+  image: docker
+  needs:
+    - Build
+  dependencies:
+    - Build
+  before_script:
+    - apk add jq
+    - mkdir -p ~/.docker
+    - echo "$DOCKER_AUTH_FILE" > ~/.docker/config.json
+    - echo "//nexus.dev.damntools.fr/repository/npm-private/:_authToken=$NPM_REGISTRY_TOKEN" > ./.npmrc
+    - echo "@damntools.fr:registry=https://nexus.dev.damntools.fr/repository/npm-private/" >> ./.npmrc
+  allow_failure: false
   script:
-    - npm ci
-    - npm run build:data
-    - npm ci
-    - npm run build:frontend
-    - npm ci
-    - npm run build:backend
+    - VERSION=$(cat package.json | jq -r .version)
+    - TAG="${DOCKER_REGISTRY_PUSH}/${DOCKER_IMAGE_NAME}:$VERSION"
+    - TAG_LATEST="${DOCKER_REGISTRY_PUSH}/${DOCKER_IMAGE_NAME}:latest"
+    - echo $TAG
+    - docker build -t $TAG . -f Dockerfile-backend
+    - docker tag $TAG $TAG_LATEST
+    - docker push $TAG
+    - docker push $TAG_LATEST
+  variables:
+    DOCKER_IMAGE_NAME: "wnab/backend"
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /^\[CI\].*/
+      when: never
+    - if: $CI_COMMIT_REF_NAME == 'main' && $PUSH_DOCKER == 'yes'
+      when: on_success
+    - when: never
+
+Docker:frontend:
+  extends:
+    - "Docker:backend"
+  script:
+    - VERSION=$(cat package.json | jq -r .version)
+    - TAG="${DOCKER_REGISTRY_PUSH}/${DOCKER_IMAGE_NAME}:$VERSION"
+    - TAG_LATEST="${DOCKER_REGISTRY_PUSH}/${DOCKER_IMAGE_NAME}:latest"
+    - echo $TAG
+    - docker build -t $TAG . -f Dockerfile-frontend
+    - docker tag $TAG $TAG_LATEST
+    - docker push $TAG
+    - docker push $TAG_LATEST
+  variables:
+    DOCKER_IMAGE_NAME: "wnab/frontend"

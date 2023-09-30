@@ -32,7 +32,7 @@ export class AccountApiService {
   getSplitBalances(accounts: List<Account>): Promise<List<EnrichedAccount>> {
     return this.axios
       .get("/balance/split")
-      .then(res => res.data as any)
+      .then(res => res.data)
       .then(res => {
         return accounts
           .stream()
