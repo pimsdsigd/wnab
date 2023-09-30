@@ -17,6 +17,9 @@
   "devDependencies": {
     "sonarqube-scanner": "^3.0.1"
   },
+  "publishConfig": {
+    "registry": "https://nexus.dev.damntools.fr/repository/npm-private/"
+  },
   "author": "flocastera",
   "license": "ISC"
 }
